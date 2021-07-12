@@ -1,0 +1,10 @@
+.vscode/
+
+# python-ralated
+__pycache__
+*.pyc
+migrations/
+
+# tests-related
+.coverage
+coverage*
