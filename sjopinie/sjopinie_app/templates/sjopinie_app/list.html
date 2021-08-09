@@ -1,0 +1,24 @@
+{% extends "sjopinie_app/layout.html" %} {% block title %} Lista przedmiotów
+{%endblock %} {% block content %}
+<div id="middle-view-container">
+  <div style="display: flex">
+    <h1>Aby wczytać listę przedmiotów wciśnij przycisk</h1>
+    <button id="load-list" style="margin: 20px">Wczytaj</button>
+  </div>
+
+  <div id="list-view" style="background-color: --background-element-color">
+    <p>Liczba przedmiotów: {+ loaded_elements +}</p>
+    <table style="width: 100%">
+      <thead>
+        <th scope="col">Skrót</th>
+        <th scope="col">Nazwa</th>
+        <th scope="col">Oceny</th>
+        <th scope="col">Liczba Ocen</th>
+      </thead>
+      <tbody v-html="list_body"></tbody>
+    </table>
+  </div>
+</div>
+{% endblock %} {% block load-scripts %} {% load static %}
+<script async src="{% static 'js/list_elements.js' %}"></script>
+{% endblock %}
