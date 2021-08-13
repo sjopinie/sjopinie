@@ -22,9 +22,13 @@ class Subject(models.Model):
 
 
 class Opinion(models.Model):
+    SEMESTER_VALUES = ((1, "I"), (2, "II"), (3, "III"), (4, "IV"), (5, "V"),
+                       (6, "VI"), (7, "VII"), (8, "VIII"), (9, "IX"))
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     opinion_text = models.CharField(max_length=5000)
-    semester = models.CharField(max_length=10, null=True)
+    semester = models.CharField(max_length=5,
+                                null=True,
+                                choices=SEMESTER_VALUES)
     publish_time = models.DateTimeField(default="2021-01-01 00:00:00")
     subject_of_opinion = models.ForeignKey(Subject,
                                            null=True,
