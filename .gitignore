@@ -1,6 +1,6 @@
 .vscode/
 
-# python-ralated
+# python-related
 __pycache__
 *.pyc
 migrations/
