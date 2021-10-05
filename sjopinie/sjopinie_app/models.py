@@ -7,6 +7,10 @@ class User(models.Model):
     date_of_registration = models.DateTimeField()
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+
+
 class Lecturer(models.Model):
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
@@ -14,11 +18,11 @@ class Lecturer(models.Model):
 
 
 class Subject(models.Model):
-    name = models.CharField(max_length=80)
-    shortcut = models.CharField(max_length=10)
+    name = models.CharField(max_length=100)
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
-        return self.shortcut
+        return self.name
 
 
 class Opinion(models.Model):
@@ -45,10 +49,4 @@ class Vote(models.Model):
     )
     value = models.IntegerField(choices=VOTE_VALUES)
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    opinion = models.ForeignKey(Opinion, null=True, on_delete=models.SET_NULL)
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=30)
-    mark = models.IntegerField()
     opinion = models.ForeignKey(Opinion, null=True, on_delete=models.SET_NULL)

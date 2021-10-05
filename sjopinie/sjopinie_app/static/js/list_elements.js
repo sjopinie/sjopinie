@@ -2,7 +2,6 @@
 
 const gen_list_member = (subject) =>
   `<tr onclick="location.href='/'"  style="cursor: pointer;">
-      <td>${subject.shortcut}</td>
       <td>${subject.name}</td>
       <td>0</td>
       <td>0</td>
