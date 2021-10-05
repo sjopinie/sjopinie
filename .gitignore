@@ -5,6 +5,9 @@ __pycache__
 *.pyc
 migrations/
 
+# data-related
+db.sqlite3
+
 # tests-related
 .coverage
 coverage*
