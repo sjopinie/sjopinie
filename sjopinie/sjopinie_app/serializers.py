@@ -7,3 +7,9 @@ class SubjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Subject
         fields = ('id', 'name')
+
+
+class SubjectFullSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Subject
+        fields = ('id', 'name')

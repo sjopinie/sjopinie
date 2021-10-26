@@ -1,10 +1,15 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.http import HttpResponse
 
 from rest_framework import viewsets
 
-from .serializers import SubjectSerializer
+from .serializers import SubjectSerializer, SubjectFullSerializer
 from .models import Subject
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -18,6 +23,13 @@ def home_page(request):
 
 def list_subj_page(request):
     return render(request, "sjopinie_app/list.html")
+
+
+def subject(request, id):
+    logger.error('Something went wrong!')
+    subject = Subject.objects.get(id=3)
+    serializer = SubjectFullSerializer(subject)
+    return JsonResponse(serializer.data)
 
 
 class SubjectViewSet(viewsets.ModelViewSet):

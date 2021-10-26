@@ -10,6 +10,9 @@ class User(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
+
 
 class Lecturer(models.Model):
     name = models.CharField(max_length=50)
@@ -19,7 +22,7 @@ class Lecturer(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, related_name="tags")
 
     def __str__(self):
         return self.name
