@@ -7,6 +7,7 @@ migrations/
 
 # data-related
 db.sqlite3
+database.png
 
 # tests-related
 .coverage
