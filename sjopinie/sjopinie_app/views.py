@@ -4,8 +4,8 @@ from django.http import HttpResponse
 
 from rest_framework import viewsets
 
-from .serializers import SubjectSerializer, SubjectFullSerializer
-from .models import Subject
+from .serializers import SubjectSerializer, SubjectFullSerializer, TagSerializer
+from .models import Subject, Tag
 
 import logging
 
@@ -35,3 +35,8 @@ def subject(request, id):
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all().order_by('name')
     serializer_class = SubjectSerializer
+
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all().order_by('name')
+    serializer_class = TagSerializer
