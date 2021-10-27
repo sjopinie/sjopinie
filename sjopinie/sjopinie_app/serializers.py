@@ -16,6 +16,8 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class SubjectFullSerializer(serializers.ModelSerializer):
+    tags = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Subject
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'tags')
