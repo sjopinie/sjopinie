@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 class User(models.Model):
     login = models.CharField(max_length=200, primary_key=True)
@@ -31,18 +33,30 @@ class Subject(models.Model):
 class Opinion(models.Model):
     SEMESTER_VALUES = ((1, "I"), (2, "II"), (3, "III"), (4, "IV"), (5, "V"),
                        (6, "VI"), (7, "VII"), (8, "VIII"), (9, "IX"))
-    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     opinion_text = models.CharField(max_length=5000)
     semester = models.CharField(max_length=5,
+                                blank=True,
                                 null=True,
                                 choices=SEMESTER_VALUES)
     publish_time = models.DateTimeField(default="2021-01-01 00:00:00")
-    subject_of_opinion = models.ForeignKey(Subject,
-                                           null=True,
-                                           on_delete=models.SET_NULL)
-    lecturer_of_opinion = models.ForeignKey(Lecturer,
-                                            null=True,
-                                            on_delete=models.SET_NULL)
+    subject_of_opinion = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    lecturer_of_opinion = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
+    note_interesting = models.SmallIntegerField(
+        blank=True,
+        null=True,
+        validators=[MaxValueValidator(100),
+                    MinValueValidator(1)]),
+    note_easy = models.SmallIntegerField(
+        blank=True,
+        null=True,
+        validators=[MaxValueValidator(100),
+                    MinValueValidator(1)])
+    note_useful = models.SmallIntegerField(
+        blank=True,
+        null=True,
+        validators=[MaxValueValidator(100),
+                    MinValueValidator(1)])
 
 
 class Vote(models.Model):
@@ -52,4 +66,4 @@ class Vote(models.Model):
     )
     value = models.IntegerField(choices=VOTE_VALUES)
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    opinion = models.ForeignKey(Opinion, null=True, on_delete=models.SET_NULL)
+    opinion = models.ForeignKey(Opinion, null=True, on_delete=models.CASCADE)
