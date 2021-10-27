@@ -3,6 +3,7 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
+router.register(r'lecturers', views.LecturerViewSet)
 router.register(r'subjects', views.SubjectViewSet)
 router.register(r'tags', views.TagViewSet)
 
