@@ -1,12 +1,7 @@
 from django.db import models
 
+from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
-
-
-class User(models.Model):
-    login = models.CharField(max_length=200, primary_key=True)
-    hash_of_password = models.CharField(max_length=255, blank=True)
-    date_of_registration = models.DateTimeField()
 
 
 class Tag(models.Model):
