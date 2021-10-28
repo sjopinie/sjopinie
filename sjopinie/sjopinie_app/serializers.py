@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Lecturer, Opinion, Subject, Tag
+from .models import Lecturer, Opinion, Vote, Subject, Tag
 
 
 class LecturerSerializer(serializers.HyperlinkedModelSerializer):
@@ -10,10 +10,17 @@ class LecturerSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class OpinionSerializer(serializers.ModelSerializer):
+    votes_count = serializers.SerializerMethodField()
+
     class Meta:
         model = Opinion
         fields = ('id', 'opinion_text', 'note_interesting', 'note_easy',
-                  'note_useful')
+                  'note_useful', 'votes_count')
+
+    def get_votes_count(self, obj: Opinion):
+        up = Vote.objects.filter(opinion=obj.id, value=1).count()
+        down = Vote.objects.filter(opinion=obj.id, value=-1).count()
+        return up - down
 
 
 class SubjectSerializer(serializers.HyperlinkedModelSerializer):
