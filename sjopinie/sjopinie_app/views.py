@@ -28,9 +28,9 @@ def subject(request, id):
 
 
 def opinion_of_subject(request, subject_id):
-    opinions = Opinion.objects.get(subject_of_opinion=subject_id)
+    opinions = Opinion.objects.filter(subject_of_opinion=subject_id)
     serializer = OpinionSerializer(opinions, many=True)
-    return JsonResponse(serializer.data)
+    return JsonResponse(serializer.data, safe=False)
 
 
 class LecturerViewSet(viewsets.ModelViewSet):

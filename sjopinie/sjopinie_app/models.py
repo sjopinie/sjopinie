@@ -41,7 +41,7 @@ class Opinion(models.Model):
         blank=True,
         null=True,
         validators=[MaxValueValidator(100),
-                    MinValueValidator(1)]),
+                    MinValueValidator(1)])
     note_easy = models.SmallIntegerField(
         blank=True,
         null=True,
