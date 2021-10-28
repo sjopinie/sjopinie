@@ -4,12 +4,8 @@ from django.http import HttpResponse
 
 from rest_framework import viewsets
 
-from .serializers import LecturerSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer
-from .models import Lecturer, Subject, Tag
-
-import logging
-
-logger = logging.getLogger(__name__)
+from .serializers import LecturerSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer
+from .models import Lecturer, Opinion, Subject, Tag
 
 
 # Create your views here.
@@ -26,10 +22,20 @@ def list_subj_page(request):
 
 
 def subject(request, id):
-    logger.error('Something went wrong!')
     subject = Subject.objects.get(id=3)
     serializer = SubjectFullSerializer(subject)
     return JsonResponse(serializer.data)
+
+
+def opinion_of_subject(request, subject_id):
+    opinions = Opinion.objects.get(subject_of_opinion=subject_id)
+    serializer = OpinionSerializer(opinions, many=True)
+    return JsonResponse(serializer.data)
+
+
+class LecturerViewSet(viewsets.ModelViewSet):
+    queryset = Lecturer.objects.all().order_by('surname')
+    serializer_class = LecturerSerializer
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
@@ -40,8 +46,3 @@ class SubjectViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all().order_by('name')
     serializer_class = TagSerializer
-
-
-class LecturerViewSet(viewsets.ModelViewSet):
-    queryset = Lecturer.objects.all().order_by('surname')
-    serializer_class = LecturerSerializer
