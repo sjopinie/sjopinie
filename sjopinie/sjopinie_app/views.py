@@ -1,6 +1,6 @@
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 
 from rest_framework import viewsets
 
@@ -9,25 +9,25 @@ from .models import Lecturer, Opinion, Subject, Tag
 
 
 # Create your views here.
-def meme_page(request):
+def meme_page(request: HttpRequest):
     return render(request, "sjopinie_app/meme.html")
 
 
-def home_page(request):
+def home_page(request: HttpRequest):
     return render(request, "sjopinie_app/home.html")
 
 
-def list_subj_page(request):
+def list_subj_page(request: HttpRequest):
     return render(request, "sjopinie_app/list.html")
 
 
-def subject(request, id):
+def subject(request: HttpRequest, id):
     subject = Subject.objects.get(id=3)
     serializer = SubjectFullSerializer(subject)
     return JsonResponse(serializer.data)
 
 
-def opinion_of_subject(request, subject_id):
+def opinion_of_subject(request: HttpRequest, subject_id):
     opinions = Opinion.objects.filter(subject_of_opinion=subject_id)
     serializer = OpinionSerializer(opinions, many=True)
     return JsonResponse(serializer.data, safe=False)
