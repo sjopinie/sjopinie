@@ -2,6 +2,8 @@ from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 
+from django.contrib.auth.views import LoginView
+
 from rest_framework import viewsets
 
 from .serializers import LecturerSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer
@@ -36,6 +38,10 @@ def opinion_of_subject(request: HttpRequest, subject_id):
 class LecturerViewSet(viewsets.ModelViewSet):
     queryset = Lecturer.objects.all().order_by('surname')
     serializer_class = LecturerSerializer
+
+
+class UserLogin(LoginView):
+    template_name = 'sjopinie_app/login.html'
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
