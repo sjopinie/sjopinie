@@ -3,8 +3,8 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'lecturers', views.LecturerViewSet)
-router.register(r'subjects', views.SubjectViewSet)
+router.register(r'lecturers', views.LecturerViewSet, basename='lecturers')
+router.register(r'subjects', views.SubjectViewSet, basename="subjects")
 router.register(r'tags', views.TagViewSet)
 
 # Wire up our API using automatic URL routing.
