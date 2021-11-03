@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User
+
 from rest_framework import serializers
 
 from .models import Lecturer, Opinion, Vote, Subject, Tag
@@ -11,16 +13,23 @@ class LecturerSerializer(serializers.HyperlinkedModelSerializer):
 
 class OpinionSerializer(serializers.ModelSerializer):
     votes_count = serializers.SerializerMethodField()
+    author_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Opinion
-        fields = ('id', 'opinion_text', 'note_interesting', 'note_easy',
-                  'note_useful', 'votes_count')
+        fields = [
+            'id', 'author_name', 'opinion_text', 'note_interesting',
+            'note_easy', 'note_useful', 'votes_count', 'author',
+            'publish_time', 'lecturer_of_opinion', 'subject_of_opinion'
+        ]
 
     def get_votes_count(self, obj: Opinion):
         up = Vote.objects.filter(opinion=obj.id, value=1).count()
         down = Vote.objects.filter(opinion=obj.id, value=-1).count()
         return up - down
+
+    def get_author_name(self, obj: Opinion):
+        return obj.author.username
 
 
 class SubjectSerializer(serializers.HyperlinkedModelSerializer):
