@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 
 from django.contrib.auth.views import LoginView
+from django.db.models import Q
 
 from rest_framework import viewsets
 
@@ -36,8 +37,19 @@ def opinion_of_subject(request: HttpRequest, subject_id):
 
 
 class LecturerViewSet(viewsets.ModelViewSet):
-    queryset = Lecturer.objects.all().order_by('surname')
     serializer_class = LecturerSerializer
+
+    def get_queryset(self):
+        lecturer_id = self.request.query_params.get('id')
+        if lecturer_id is not None:
+            return Lecturer.objects.filter(id=lecturer_id)
+
+        q = Q()
+        subject_id = self.request.query_params.get('subject_id')
+        if subject_id is not None:
+            q &= Q(lecturer_of_opinion__subject_of_opinion_id=subject_id)
+        queryset = Lecturer.objects.filter(q)
+        return queryset
 
 
 class UserLogin(LoginView):
