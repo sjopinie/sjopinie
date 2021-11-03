@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 
 from django.contrib.auth.views import LoginView
+from django.db.models import Q
 
 from rest_framework import viewsets
 
@@ -29,15 +30,40 @@ def subject(request: HttpRequest, id):
     return JsonResponse(serializer.data)
 
 
-def opinion_of_subject(request: HttpRequest, subject_id):
-    opinions = Opinion.objects.filter(subject_of_opinion=subject_id)
-    serializer = OpinionSerializer(opinions, many=True)
-    return JsonResponse(serializer.data, safe=False)
-
-
 class LecturerViewSet(viewsets.ModelViewSet):
-    queryset = Lecturer.objects.all().order_by('surname')
     serializer_class = LecturerSerializer
+
+    def get_queryset(self):
+        lecturer_id = self.request.query_params.get('id')
+        if lecturer_id is not None:
+            return Lecturer.objects.filter(id=lecturer_id)
+
+        q = Q()
+        subject_id = self.request.query_params.get('subject_id')
+        if subject_id is not None:
+            q &= Q(lecturer_of_opinion__subject_of_opinion_id=subject_id)
+        queryset = Lecturer.objects.filter(q)
+        return queryset
+
+
+class OpinionViewSet(viewsets.ModelViewSet):
+    serializer_class = OpinionSerializer
+
+    def get_queryset(self):
+        opinion_id = self.request.query_params.get('id')
+        if opinion_id is not None:
+            return Opinion.objects.filter(id=opinion_id)
+
+        query = Q()
+        subject_id = self.request.query_params.get('subject_id')
+        if subject_id is not None:
+            query &= Q(subject_of_opinion=subject_id)
+
+        lecturer_id = self.request.query_params.get('lecturer_id')
+        if lecturer_id is not None:
+            query &= Q(lecturer_of_opinion=lecturer_id)
+
+        return Opinion.objects.filter(query)
 
 
 class UserLogin(LoginView):
