@@ -32,7 +32,7 @@ class OpinionSerializer(serializers.ModelSerializer):
         return obj.author.username
 
 
-class SubjectSerializer(serializers.HyperlinkedModelSerializer):
+class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
         fields = ('id', 'name')
@@ -46,7 +46,18 @@ class TagSerializer(serializers.ModelSerializer):
 
 class SubjectFullSerializer(serializers.ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
+    tag_list = serializers.CharField(max_length=200, required=False)
 
     class Meta:
         model = Subject
-        fields = ('id', 'name', 'tags')
+        fields = ('id', 'name', 'tags', 'tag_list')
+        extra_kwargs = {'tag_list': {'write_only': True}}
+
+    def create(self, validated_data: dict):
+        tags = validated_data.get('tag_list')
+        if tags:
+            pass  #TODO add new tags and link with existing
+
+        print(validated_data)
+        result = Subject.objects.create(name=validated_data['name'])
+        return result

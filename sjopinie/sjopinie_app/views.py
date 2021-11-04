@@ -72,7 +72,11 @@ class UserLogin(LoginView):
 
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all().order_by('name')
-    serializer_class = SubjectSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return SubjectFullSerializer
+        return SubjectSerializer
 
 
 class TagViewSet(viewsets.ModelViewSet):
