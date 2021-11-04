@@ -8,7 +8,7 @@ from .models import Lecturer, Opinion, Vote, Subject, Tag
 class LecturerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Lecturer
-        fields = ('id', 'name', 'surname')
+        fields = ('id', 'full_name')
 
 
 class OpinionSerializer(serializers.ModelSerializer):
