@@ -16,6 +16,9 @@ class Lecturer(models.Model):
     surname = models.CharField(max_length=50)
     academic_title = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.name + " " + self.surname
+
 
 class Subject(models.Model):
     name = models.CharField(max_length=100)
@@ -56,6 +59,9 @@ class Opinion(models.Model):
         null=True,
         validators=[MaxValueValidator(100),
                     MinValueValidator(1)])
+
+    def __str__(self):
+        return f"{self.author} Subject: {self.subject_of_opinion} {self.publish_time}"
 
 
 class Vote(models.Model):
