@@ -55,9 +55,23 @@ class SubjectFullSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: dict):
         tags = validated_data.get('tag_list')
+        tag_models = []
         if tags:
-            pass  #TODO add new tags and link with existing
+            tag_models = self.find_tags_and_create_missing(tags)
 
-        print(validated_data)
         result = Subject.objects.create(name=validated_data['name'])
+        for tag_model in tag_models:
+            result.tags.add(tag_model)
+        return result
+
+    def find_tags_and_create_missing(self, tags_string: str):
+        tags = tags_string.split(',')
+        result = []
+        for tag_name in tags:
+            tag_model = None
+            try:
+                tag_model = Tag.objects.get(name__iexact=tag_name)
+            except Tag.DoesNotExist as e:
+                tag_model = Tag.objects.create(name=tag_name)
+            result.append(tag_model)
         return result
