@@ -12,12 +12,10 @@ class Tag(models.Model):
 
 
 class Lecturer(models.Model):
-    name = models.CharField(max_length=50)
-    surname = models.CharField(max_length=50)
-    academic_title = models.CharField(max_length=20)
+    full_name = models.CharField(max_length=80, unique=True)
 
     def __str__(self):
-        return self.name + " " + self.surname
+        return self.full_name
 
 
 class Subject(models.Model):
@@ -37,7 +35,7 @@ class Opinion(models.Model):
                                 blank=True,
                                 null=True,
                                 choices=SEMESTER_VALUES)
-    publish_time = models.DateTimeField(default="2021-01-01 00:00:00")
+    publish_time = models.DateTimeField(auto_now_add=True)
     subject_of_opinion = models.ForeignKey(Subject,
                                            on_delete=models.CASCADE,
                                            related_name="subject_of_opinion")

@@ -25,7 +25,7 @@ def list_subj_page(request: HttpRequest):
 
 
 def subject(request: HttpRequest, id):
-    subject = Subject.objects.get(id=3)
+    subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
     return JsonResponse(serializer.data)
 
@@ -72,7 +72,11 @@ class UserLogin(LoginView):
 
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all().order_by('name')
-    serializer_class = SubjectSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return SubjectFullSerializer
+        return SubjectSerializer
 
 
 class TagViewSet(viewsets.ModelViewSet):

@@ -3,10 +3,10 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'opinions', views.OpinionViewSet, basename='opinions')
-router.register(r'lecturers', views.LecturerViewSet, basename='lecturers')
-router.register(r'subjects', views.SubjectViewSet, basename="subjects")
-router.register(r'tags', views.TagViewSet)
+router.register(r'api/opinions', views.OpinionViewSet, basename='opinions')
+router.register(r'api/lecturers', views.LecturerViewSet, basename='lecturers')
+router.register(r'api/subjects', views.SubjectViewSet, basename="subjects")
+router.register(r'api/tags', views.TagViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
@@ -15,5 +15,5 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls',
                               namespace='rest_framework')),
     path('login/', views.UserLogin.as_view(), name="login"),
-    path('subject/<int:id>/', views.subject)
+    path('api/subject/<int:id>/', views.subject)
 ]
