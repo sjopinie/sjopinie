@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
+from django.utils import timezone
 
 from rest_framework import serializers
 
@@ -22,6 +24,9 @@ class OpinionSerializer(serializers.ModelSerializer):
             'note_easy', 'note_useful', 'votes_count', 'author',
             'publish_time', 'lecturer_of_opinion', 'subject_of_opinion'
         ]
+        read_only_fields = [
+            'author_name', 'votes_count', 'author', 'publish_time'
+        ]
 
     def get_votes_count(self, obj: Opinion):
         up = Vote.objects.filter(opinion=obj.id, value=1).count()
@@ -30,6 +35,13 @@ class OpinionSerializer(serializers.ModelSerializer):
 
     def get_author_name(self, obj: Opinion):
         return obj.author.username
+
+    def create(self, validated_data: dict):
+        author_model = self.context['request'].user
+        if author_model.id is None:
+            raise PermissionDenied
+        result = Opinion.objects.create(author=author_model, **validated_data)
+        return result
 
 
 class SubjectSerializer(serializers.ModelSerializer):

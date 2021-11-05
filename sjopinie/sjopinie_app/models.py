@@ -35,7 +35,7 @@ class Opinion(models.Model):
                                 blank=True,
                                 null=True,
                                 choices=SEMESTER_VALUES)
-    publish_time = models.DateTimeField(default="2021-01-01 00:00:00")
+    publish_time = models.DateTimeField(auto_now_add=True)
     subject_of_opinion = models.ForeignKey(Subject,
                                            on_delete=models.CASCADE,
                                            related_name="subject_of_opinion")
