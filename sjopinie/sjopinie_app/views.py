@@ -25,7 +25,7 @@ def list_subj_page(request: HttpRequest):
 
 
 def subject(request: HttpRequest, id):
-    subject = Subject.objects.get(id=3)
+    subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
     return JsonResponse(serializer.data)
 
