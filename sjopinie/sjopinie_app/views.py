@@ -27,7 +27,6 @@ def list_subj_page(request: HttpRequest):
 def subject(request: HttpRequest, id):
     subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
-    print(serializer.data)
     return render(request,
                   "sjopinie_app/subject.html",
                   context=serializer.data)
