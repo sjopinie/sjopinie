@@ -1,11 +1,10 @@
 "use strict";
 
 const gen_list_member = (subject) =>
-  `<tr onclick="location.href='/'"  style="cursor: pointer;">
+  `<tr onclick="location.href='/subject/${subject.id}'"  style="cursor: pointer;">
       <td>${subject.name}</td>
-      <td>0</td>
-      <td>0</td>
-    </tr>`;//TODO proper click location
+      <td></td>
+    </tr>`; //TODO proper click location
 
 const load_btn = document.querySelector("#load-list");
 const subject_list = new Vue({
@@ -18,7 +17,7 @@ const subject_list = new Vue({
 });
 
 const load_list = function () {
-  fetch("subjects")
+  fetch("/api/subjects")
     .then((response) => response.json())
     .then((list) => {
       subject_list.loaded_elements = list.length;
@@ -28,7 +27,6 @@ const load_list = function () {
         subject_list.list_body += gen_list_member(element);
       });
     });
-
 };
 
 load_btn.addEventListener("click", load_list);
