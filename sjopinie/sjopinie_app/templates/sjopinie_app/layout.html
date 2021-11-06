@@ -18,6 +18,16 @@
         <li class="navbar-list-el">
           <a href="/list_subj">Lista Przedmiotów</a>
         </li>
+
+        {% if user.is_authenticated %}
+        <li class="navbar-list-el">
+          <a href="/api-auth/logout/">Witaj {{user.get_username}}, (wyloguj)</a>
+        </li>
+        {% else %}
+        <li class="navbar-list-el">
+          <a href="/login">Zaloguj</a>
+        </li>
+        {% endif %}
       </ul>
     </nav>
     <div class="body-content">{% block content %} {% endblock %}</div>
