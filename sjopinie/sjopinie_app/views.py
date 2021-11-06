@@ -27,9 +27,12 @@ def list_subj_page(request: HttpRequest):
 def subject(request: HttpRequest, id):
     subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
-    return render(request,
-                  "sjopinie_app/subject.html",
-                  context=serializer.data)
+
+    opinions = Opinion.objects.filter(subject_of_opinion=id)
+    opinion_serializer = OpinionSerializer(opinions, many=True)
+    context_data = serializer.data
+    context_data["opinions"] = opinion_serializer.data
+    return render(request, "sjopinie_app/subject.html", context=context_data)
 
 
 class LecturerViewSet(viewsets.ModelViewSet):
