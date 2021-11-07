@@ -12,10 +12,6 @@ from .models import Lecturer, Opinion, Subject, Tag
 
 
 # Create your views here.
-def meme_page(request: HttpRequest):
-    return render(request, "sjopinie_app/meme.html")
-
-
 def home_page(request: HttpRequest):
     return render(request, "sjopinie_app/home.html")
 
