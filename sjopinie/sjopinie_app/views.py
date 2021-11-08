@@ -6,16 +6,13 @@ from django.contrib.auth.views import LoginView
 from django.db.models import Q
 
 from rest_framework import viewsets
+from rest_framework.serializers import Serializer
 
 from .serializers import LecturerSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer
 from .models import Lecturer, Opinion, Subject, Tag
 
 
 # Create your views here.
-def meme_page(request: HttpRequest):
-    return render(request, "sjopinie_app/meme.html")
-
-
 def home_page(request: HttpRequest):
     return render(request, "sjopinie_app/home.html")
 
@@ -27,7 +24,31 @@ def list_subj_page(request: HttpRequest):
 def subject(request: HttpRequest, id):
     subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
-    return JsonResponse(serializer.data)
+
+    opinions = Opinion.objects.filter(subject_of_opinion=id)
+    opinion_serializer = OpinionSerializer(opinions, many=True)
+    context_data = serializer.data
+    opinions = opinion_serializer.data
+    for opinion in opinions:
+        opinion["lecturer_name"] = Lecturer.objects.get(
+            id=opinion["lecturer_of_opinion"]).full_name
+    context_data["opinions"] = opinions
+    return render(request, "sjopinie_app/subject.html", context=context_data)
+
+
+def lecturer(request: HttpRequest, id):
+    lecturer = Lecturer.objects.get(id=id)
+    serializer = LecturerSerializer(lecturer)
+
+    opinions = Opinion.objects.filter(lecturer_of_opinion=id)
+    opinion_serializer = OpinionSerializer(opinions, many=True)
+    context_data = serializer.data
+    opinions = opinion_serializer.data
+    for opinion in opinions:
+        opinion["subject_name"] = Subject.objects.get(
+            id=opinion["subject_of_opinion"]).name
+    context_data["opinions"] = opinions
+    return render(request, "sjopinie_app/lecturer.html", context=context_data)
 
 
 class LecturerViewSet(viewsets.ModelViewSet):

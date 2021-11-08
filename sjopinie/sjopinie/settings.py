@@ -139,3 +139,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, "/sjopinie_app/static")
 # Others
 
 LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'

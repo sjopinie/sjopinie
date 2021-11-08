@@ -1,0 +1,41 @@
+{% extends "sjopinie_app/layout.html" %} {% block title %} Przedmiot
+{%endblock%} {% block content %} Id przedmoitu: {{id}}
+<br />
+<h1>Ogólne informacje</h1>
+Nazwa: {{name}}
+<ul>
+  {% for tag in tags %}
+  <li>{{tag}}</li>
+  {%endfor%}
+</ul>
+<h1>Opinie</h1>
+<table style="width: 100%">
+  <thead>
+    <th scope="col">Autor</th>
+    <th scope="col">Prowadzący</th>
+    <th scope="col">Data</th>
+    <th scope="col">Opinia</th>
+    <th scope="col">Łatwy</th>
+    <th scope="col">Ciekawy</th>
+    <th scope="col">Użyteczny</th>
+  </thead>
+  <tbody v-html="list_body">
+    {% for opinion in opinions %}
+    <tr style="cursor: pointer">
+      <td>{{opinion.author_name}}</td>
+      <td>
+        <a href="/lecturer/{{opinion.lecturer_of_opinion}}"
+          >{{opinion.lecturer_name}}</a
+        >
+      </td>
+      <td>{{opinion.publish_time}}</td>
+      <td>{{opinion.opinion_text}}</td>
+      <td>{{opinion.note_easy}}</td>
+      <td>{{opinion.note_interesting}}</td>
+      <td>{{opinion.note_useful}}</td>
+      <td></td>
+    </tr>
+    {%endfor%}
+  </tbody>
+</table>
+{% endblock %}
