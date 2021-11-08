@@ -2,7 +2,8 @@
 
 const gen_list_member = (subject) =>
   `<tr onclick="location.href='/subject/${subject.id}'"  style="cursor: pointer;">
-      <td>${subject.name}</td>
+      <td><a href="/subject/${subject.id}"
+          >${subject.name}</a></td>
       <td></td>
     </tr>`; //TODO proper click location
 

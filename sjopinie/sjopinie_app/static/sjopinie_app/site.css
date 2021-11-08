@@ -32,7 +32,7 @@ nav {
 }
 
 a {
-    color: inherit;
+    color:darkblue;
     text-decoration: inherit;
 }
 
@@ -57,6 +57,7 @@ thead {
 }
 
 .navbar-list-el{
+    color: white;
     padding: 15px;
 }
 
