@@ -8,6 +8,7 @@ Imie i nazwisko: {{full_name}}
 <table style="width: 100%">
   <thead>
     <th scope="col">Autor</th>
+    <th scope="col">Przedmiot</th>
     <th scope="col">Data</th>
     <th scope="col">Opinia</th>
     <th scope="col">Łatwy</th>
@@ -18,6 +19,11 @@ Imie i nazwisko: {{full_name}}
     {% for opinion in opinions %}
     <tr style="cursor: pointer">
       <td>{{opinion.author_name}}</td>
+      <td>
+        <a href="/subject/{{opinion.subject_of_opinion}}"
+          >{{opinion.subject_name}}</a
+        >
+      </td>
       <td>{{opinion.publish_time}}</td>
       <td>{{opinion.opinion_text}}</td>
       <td>{{opinion.note_easy}}</td>

@@ -39,7 +39,11 @@ def lecturer(request: HttpRequest, id):
     opinions = Opinion.objects.filter(lecturer_of_opinion=id)
     opinion_serializer = OpinionSerializer(opinions, many=True)
     context_data = serializer.data
-    context_data["opinions"] = opinion_serializer.data
+    opinions = opinion_serializer.data
+    for opinion in opinions:
+        opinion["subject_name"] = Subject.objects.get(
+            id=opinion["subject_of_opinion"]).name
+    context_data["opinions"] = opinions
     return render(request, "sjopinie_app/lecturer.html", context=context_data)
 
 
