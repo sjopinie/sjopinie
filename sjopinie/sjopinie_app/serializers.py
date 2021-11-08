@@ -16,13 +16,15 @@ class LecturerSerializer(serializers.HyperlinkedModelSerializer):
 class OpinionSerializer(serializers.ModelSerializer):
     votes_count = serializers.SerializerMethodField()
     author_name = serializers.SerializerMethodField()
+    lecturer_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Opinion
         fields = [
             'id', 'author_name', 'opinion_text', 'note_interesting',
             'note_easy', 'note_useful', 'votes_count', 'author',
-            'publish_time', 'lecturer_of_opinion', 'subject_of_opinion'
+            'publish_time', 'lecturer_of_opinion', 'lecturer_name',
+            'subject_of_opinion'
         ]
         read_only_fields = [
             'author_name', 'votes_count', 'author', 'publish_time'
@@ -35,6 +37,9 @@ class OpinionSerializer(serializers.ModelSerializer):
 
     def get_author_name(self, obj: Opinion):
         return obj.author.username
+
+    def get_lecturer_name(self, obj: Opinion):
+        return obj.lecturer_of_opinion.full_name
 
     def create(self, validated_data: dict):
         author_model = self.context['request'].user
