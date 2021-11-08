@@ -12,6 +12,7 @@ Nazwa: {{name}}
 <table style="width: 100%">
   <thead>
     <th scope="col">Autor</th>
+    <th scope="col">Prowadzący</th>
     <th scope="col">Data</th>
     <th scope="col">Opinia</th>
     <th scope="col">Łatwy</th>
@@ -22,6 +23,11 @@ Nazwa: {{name}}
     {% for opinion in opinions %}
     <tr style="cursor: pointer">
       <td>{{opinion.author_name}}</td>
+      <td>
+        <a href="/lecturer/{{opinion.lecturer_of_opinion}}"
+          >{{opinion.lecturer_name}}</a
+        >
+      </td>
       <td>{{opinion.publish_time}}</td>
       <td>{{opinion.opinion_text}}</td>
       <td>{{opinion.note_easy}}</td>
