@@ -6,6 +6,7 @@ from django.contrib.auth.views import LoginView
 from django.db.models import Q
 
 from rest_framework import viewsets
+from rest_framework.serializers import Serializer
 
 from .serializers import LecturerSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer
 from .models import Lecturer, Opinion, Subject, Tag
@@ -29,6 +30,17 @@ def subject(request: HttpRequest, id):
     context_data = serializer.data
     context_data["opinions"] = opinion_serializer.data
     return render(request, "sjopinie_app/subject.html", context=context_data)
+
+
+def lecturer(request: HttpRequest, id):
+    lecturer = Lecturer.objects.get(id=id)
+    serializer = LecturerSerializer(lecturer)
+
+    opinions = Opinion.objects.filter(lecturer_of_opinion=id)
+    opinion_serializer = OpinionSerializer(opinions, many=True)
+    context_data = serializer.data
+    context_data["opinions"] = opinion_serializer.data
+    return render(request, "sjopinie_app/lecturer.html", context=context_data)
 
 
 class LecturerViewSet(viewsets.ModelViewSet):
