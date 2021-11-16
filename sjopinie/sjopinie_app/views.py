@@ -2,6 +2,8 @@ from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.db.models import Q
 
@@ -17,10 +19,12 @@ def home_page(request: HttpRequest):
     return render(request, "sjopinie_app/home.html")
 
 
+@login_required
 def list_subj_page(request: HttpRequest):
     return render(request, "sjopinie_app/list.html")
 
 
+@login_required
 def subject(request: HttpRequest, id):
     subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
@@ -36,6 +40,7 @@ def subject(request: HttpRequest, id):
     return render(request, "sjopinie_app/subject.html", context=context_data)
 
 
+@login_required
 def lecturer(request: HttpRequest, id):
     lecturer = Lecturer.objects.get(id=id)
     serializer = LecturerSerializer(lecturer)
@@ -51,7 +56,7 @@ def lecturer(request: HttpRequest, id):
     return render(request, "sjopinie_app/lecturer.html", context=context_data)
 
 
-class LecturerViewSet(viewsets.ModelViewSet):
+class LecturerViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     serializer_class = LecturerSerializer
 
     def get_queryset(self):
@@ -67,7 +72,7 @@ class LecturerViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class OpinionViewSet(viewsets.ModelViewSet):
+class OpinionViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     serializer_class = OpinionSerializer
 
     def get_queryset(self):
@@ -91,7 +96,7 @@ class UserLogin(LoginView):
     template_name = 'sjopinie_app/login.html'
 
 
-class SubjectViewSet(viewsets.ModelViewSet):
+class SubjectViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     queryset = Subject.objects.all().order_by('name')
 
     def get_serializer_class(self):
@@ -100,6 +105,6 @@ class SubjectViewSet(viewsets.ModelViewSet):
         return SubjectSerializer
 
 
-class TagViewSet(viewsets.ModelViewSet):
+class TagViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     queryset = Tag.objects.all().order_by('name')
     serializer_class = TagSerializer
