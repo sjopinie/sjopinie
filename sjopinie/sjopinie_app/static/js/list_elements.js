@@ -23,7 +23,7 @@ const load_list = function () {
     .then((list) => {
       subject_list.loaded_elements = list.length;
       subject_list.list_body = "";
-      list.forEach((element) => {
+      list.results.forEach((element) => {
         console.log(element);
         subject_list.list_body += gen_list_member(element);
       });
