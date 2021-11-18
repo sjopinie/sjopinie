@@ -6,6 +6,7 @@ from django.http import HttpRequest
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
+
 from django.db.models import Q
 from django.views.generic.edit import CreateView
 
@@ -93,7 +94,7 @@ class OpinionViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
         return Opinion.objects.filter(query)
 
 
-class UserLogin(LoginView):
+class UserLoginView(LoginView):
     template_name = 'sjopinie_app/login.html'
 
 
