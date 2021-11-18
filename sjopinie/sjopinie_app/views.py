@@ -20,12 +20,12 @@ def home_page(request: HttpRequest):
     return render(request, "sjopinie_app/home.html")
 
 
-@login_required
+@login_required(login_url="/login")
 def list_subj_page(request: HttpRequest):
     return render(request, "sjopinie_app/list.html")
 
 
-@login_required
+@login_required(login_url="/login")
 def subject(request: HttpRequest, id):
     subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
@@ -41,7 +41,7 @@ def subject(request: HttpRequest, id):
     return render(request, "sjopinie_app/subject.html", context=context_data)
 
 
-@login_required
+@login_required(login_url="/login")
 def lecturer(request: HttpRequest, id):
     lecturer = Lecturer.objects.get(id=id)
     serializer = LecturerSerializer(lecturer)
