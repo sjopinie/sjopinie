@@ -16,5 +16,8 @@ urlpatterns = [
                               namespace='rest_framework')),
     path('login/', views.UserLogin.as_view(), name="login"),
     path('lecturer/<int:id>/', views.lecturer),
-    path('subject/<int:id>/', views.subject)
+    path('subject/<int:id>/', views.subject),
+    path('new/lecturer/', views.LecturerCreateView.as_view()),
+    path('new/opinion/', views.OpinionCreateView.as_view()),
+    path('new/subject/', views.SubjectCreateView.as_view()),
 ]

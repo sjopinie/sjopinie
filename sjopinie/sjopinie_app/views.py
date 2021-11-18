@@ -1,14 +1,15 @@
+from re import template
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.db.models import Q
+from django.views.generic.edit import CreateView
 
 from rest_framework import viewsets
-from rest_framework.serializers import Serializer
 
 from .serializers import LecturerSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer
 from .models import Lecturer, Opinion, Subject, Tag
@@ -108,3 +109,27 @@ class SubjectViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
 class TagViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     queryset = Tag.objects.all().order_by('name')
     serializer_class = TagSerializer
+
+
+class LecturerCreateView(LoginRequiredMixin, CreateView):
+    model = Lecturer
+    fields = "__all__"
+    success_url = "/new/opinion"
+    template_name = 'sjopinie_app/base_create_form.html'
+
+
+class SubjectCreateView(LoginRequiredMixin, CreateView):
+    model = Subject
+    fields = "__all__"
+    success_url = "/"
+    template_name = 'sjopinie_app/base_create_form.html'
+
+
+class OpinionCreateView(LoginRequiredMixin, CreateView):
+    model = Opinion
+    success_url = "/"
+    template_name = 'sjopinie_app/opinion_create_form.html'
+    fields = [
+        'subject_of_opinion', 'lecturer_of_opinion', 'opinion_text',
+        'note_interesting', 'note_easy', 'note_useful'
+    ]
