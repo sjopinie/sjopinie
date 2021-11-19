@@ -12,6 +12,7 @@ from django.views.generic.edit import CreateView
 
 from rest_framework import viewsets
 
+from .forms import SignUpForm
 from .serializers import LecturerSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer
 from .models import Lecturer, Opinion, Subject, Tag
 
@@ -96,6 +97,12 @@ class OpinionViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
 
 class UserLoginView(LoginView):
     template_name = 'sjopinie_app/login.html'
+
+
+class UserSignUpView(CreateView):
+    form_class = SignUpForm
+    success_url = "/login"
+    template_name = 'sjopinie_app/signup.html'
 
 
 class SubjectViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
