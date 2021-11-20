@@ -37,6 +37,7 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(" ")
 # Application definition
 
 INSTALLED_APPS = [
+    'tenant_schemas',  # mandatory, should always be before any django app
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,9 +45,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sjopinie_app',
+    'shared',
     'django_extensions',
     'rest_framework',
 ]
+MIDDLEWARE_CLASSES = ['tenant_schemas.middleware.TenantMiddleware']
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
@@ -84,6 +87,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sjopinie.wsgi.application'
 
+#Multitenancy
+
+SHARED_APPS = (
+    'tenant_schemas',  # mandatory, should always be before any django app
+    'shared',  # you must list the app where your tenant model resides in
+    'django.contrib.contenttypes',
+
+    # everything below here is optional
+    'django.contrib.auth',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.admin',
+)
+
+TENANT_APPS = ('django.contrib.contenttypes', 'sjopinie_app')
+
+TENANT_MODEL = "shared.Organization"
+
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
@@ -103,6 +124,8 @@ DATABASES = {
 }
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+DATABASE_ROUTERS = ('tenant_schemas.routers.TenantSyncRouter', )
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
