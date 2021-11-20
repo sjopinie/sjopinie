@@ -5,7 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
@@ -19,7 +19,7 @@ class Lecturer(models.Model):
 
 
 class Subject(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     tags = models.ManyToManyField(Tag, related_name="tags")
 
     def __str__(self):
@@ -58,6 +58,11 @@ class Opinion(models.Model):
         validators=[MaxValueValidator(100),
                     MinValueValidator(1)])
 
+    class Meta:
+        unique_together = [
+            'author', 'subject_of_opinion', 'lecturer_of_opinion'
+        ]
+
     def __str__(self):
         return f"{self.author} Subject: {self.subject_of_opinion} {self.publish_time}"
 
@@ -70,3 +75,6 @@ class Vote(models.Model):
     value = models.IntegerField(choices=VOTE_VALUES)
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     opinion = models.ForeignKey(Opinion, null=True, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ['author', 'opinion']
