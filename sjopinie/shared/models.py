@@ -13,6 +13,9 @@ class Organization(TenantMixin):
     # default true, schema will be automatically created and synced when it is saved
     auto_create_schema = True
 
+    def __str__(self):
+        return f"{self.name} schema:{self.schema_name}"
+
 
 class OrgUser(AbstractUser):
     tenant = models.ForeignKey(Organization,
@@ -20,3 +23,6 @@ class OrgUser(AbstractUser):
                                blank=False)
     first_name = None
     last_name = None
+
+    def __str__(self):
+        return f"{self.username} tenant:{self.tenant.name}"
