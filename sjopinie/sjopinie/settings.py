@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
 ]
-MIDDLEWARE_CLASSES = ['tenant_schemas.middleware.TenantMiddleware']
+MIDDLEWARE_CLASSES = ('shared.middleware.OrgUserMiddleware')
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
@@ -60,9 +60,10 @@ REST_FRAMEWORK = {
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'shared.middleware.OrgUserMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
