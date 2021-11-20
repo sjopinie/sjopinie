@@ -103,6 +103,10 @@ SHARED_APPS = (
 
 TENANT_APPS = ('django.contrib.contenttypes', 'sjopinie_app')
 
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "shared.backends.OrgUserBackend"
+]
 AUTH_USER_MODEL = "shared.OrgUser"
 TENANT_MODEL = "shared.Organization"
 
