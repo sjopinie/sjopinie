@@ -19,8 +19,18 @@
         <li class="navbar-list-el">
           <a class="navbar-list-el" href="/list_subj">Lista Przedmiotów</a>
         </li>
-
         {% if user.is_authenticated %}
+        <li>
+          <input
+            id="navbar-search-text"
+            class="navbar-list-search"
+            type="text"
+            placeholder="Szukaj"
+          />
+          <button id="navbar-search-button" class="navbar-list-search">
+            🔎
+          </button>
+        </li>
         <li class="navbar-list-el">
           <a class="navbar-list-el" href="/api-auth/logout/"
             >Witaj {{user.get_username}}, (wyloguj)</a
@@ -44,6 +54,28 @@
 
     <!-- Load development version ov VUE TODO change to production one at the end -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    {% block load-scripts %} {% endblock %}
+
+    {% if user.is_authenticated %}
+    <script async>
+      document
+        .querySelector("#navbar-search-text")
+        .addEventListener("keyup", function (event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+            // Cancel the default action, if needed
+            event.preventDefault();
+            // Trigger the button element with a click
+            document.getElementById("navbar-search-button").click();
+          }
+        });
+      document.querySelector("#navbar-search-button").onclick = function () {
+        let query = document.querySelector("#navbar-search-text").value;
+        if (query) {
+          location.href = "/search/" + query;
+        }
+      };
+    </script>
+
+    {% endif %} {% block load-scripts %} {% endblock %}
   </body>
 </html>
