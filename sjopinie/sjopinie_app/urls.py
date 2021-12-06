@@ -18,6 +18,7 @@ urlpatterns = [
     path('signup/', views.UserSignUpView.as_view(), name="signup"),
     path('lecturer/<int:id>/', views.lecturer),
     path('subject/<int:id>/', views.subject),
+    path('search/<str:query>', views.search),
     path('new/lecturer/', views.LecturerCreateView.as_view()),
     path('new/opinion/', views.OpinionCreateView.as_view()),
     path('new/subject/', views.SubjectCreateView.as_view()),

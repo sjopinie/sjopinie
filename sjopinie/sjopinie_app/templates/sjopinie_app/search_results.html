@@ -1,0 +1,42 @@
+{% extends "sjopinie_app/layout.html" %} {% block title %} Wyniki wyszukiwania
+dla: {{query}} {%endblock%} {% block content %}
+<br />
+
+<h1>Wyniki wyszukiwania dla: {{query}}</h1>
+
+<h1>Przedmioty</h1>
+<table style="width: 60%">
+  <thead>
+    <th scope="col">Przedmiot</th>
+    <th scope="col">Liczba opinii</th>
+  </thead>
+  <tbody v-html="list_body">
+    {% for subject in subjects %}
+    <tr style="cursor: pointer">
+      <td>
+        <a href="/subject/{{subject.id}}">{{subject.name}}</a>
+      </td>
+      <td>{{subject.opinion_count}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h1>Prowadzący</h1>
+<table style="width: 60%">
+  <thead>
+    <th scope="col">Imię i nazwisko</th>
+    <th scope="col">Liczba opinii</th>
+  </thead>
+  <tbody v-html="list_body">
+    {% for lect in lecturers %}
+    <tr style="cursor: pointer">
+      <td>
+        <a href="/subject/{{lect.id}}">{{lect.full_name}}</a>
+      </td>
+      <td>{{lect.opinion_count}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
