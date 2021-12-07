@@ -1,19 +1,47 @@
 <html>
   <head>
-    <title>LoginView</title>
+    <meta charset="utf-8" />
+    <title>Logowanie - sjopinie.pl</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'sjopinie_app/style.css' %}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
   </head>
 
   <body>
-    <form method="POST">
-      {% csrf_token %}
+    <div class="container">
+      <div class="login-panel shadow">
+        <h1>Logowanie</h1>
+        <form method="POST">
+          {% csrf_token %}
 
-      <!-- form variable -->
-      {{ form.as_p }}
+          <!-- form variable -->
+          {{ form.as_p }}
 
-      <input type="submit" name="sumbit" value="Zaloguj" />
-    </form>
-    <a href="/signup">
-      <input type="submit" value="Zarejestruj" />
-    </a>
+          <input type="submit" name="sumbit" />
+        </form>
+      </div>
+      <div class="description">
+        <h1>System oceniania przedmiotów na Studium Języków Obcych</h1>
+        <p>
+          Portal pozwala na dodawanie i przeglądanie opinii oraz ocen o
+          przedmiotach i prowadzących.Aby korzystać z serwisu musisz być
+          zalogowany/a. Nie masz konta?
+          <a href="#"><b>Zarejestruj się tutaj!</b></a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>
