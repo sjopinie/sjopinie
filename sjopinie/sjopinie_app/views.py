@@ -59,6 +59,28 @@ def lecturer(request: HttpRequest, id):
     return render(request, "sjopinie_app/lecturer.html", context=context_data)
 
 
+@login_required(login_url="/login")
+def search(request: HttpRequest, query: str):
+    lecturers = Lecturer.objects.filter(full_name__contains=query)
+    subjects = Subject.objects.filter(name__contains=query)
+    lecturers_data = LecturerSerializer(lecturers, many=True).data
+    for lect in lecturers_data:
+        lect["opinion_count"] = Opinion.objects.filter(
+            lecturer_of_opinion=lect["id"]).count()
+    subjects_data = SubjectSerializer(subjects, many=True).data
+    for sub in subjects_data:
+        sub["opinion_count"] = Opinion.objects.filter(
+            subject_of_opinion=sub["id"]).count()
+    context_data = {
+        "lecturers": lecturers_data,
+        "subjects": subjects_data,
+        "query": query
+    }
+    return render(request,
+                  "sjopinie_app/search_results.html",
+                  context=context_data)
+
+
 class LecturerViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     serializer_class = LecturerSerializer
 

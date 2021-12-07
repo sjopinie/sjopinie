@@ -1,8 +1,8 @@
 :root {
-  --background-element-color: #B0B0B0;
+  --background-element-color: #b0b0b0;
 
   --background-color: rgb(255, 251, 255);
-  --background-highlight-color: rgba(220,220,220);
+  --background-highlight-color: rgba(220, 220, 220);
 }
 
 body {
@@ -21,7 +21,7 @@ h1 {
 }
 
 nav {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   margin: 0;
   padding: 0;
@@ -32,12 +32,12 @@ nav {
 }
 
 a {
-    color:darkblue;
-    text-decoration: inherit;
+  color: darkblue;
+  text-decoration: inherit;
 }
 
 li {
-    padding: 5px;
+  padding: 5px;
 }
 
 tr:hover {
@@ -49,23 +49,28 @@ thead {
 }
 
 #navbar-list {
-    
   list-style-type: inherit;
   display: flex;
   padding: 0;
   margin: 0;
 }
 
-.navbar-list-el{
-    color: white;
-    padding: 15px;
+.navbar-list-search {
+  color: black;
+  font-size: 100%;
+  padding: 5px;
 }
 
-.navbar-list-el:hover{
-    background-color: rgba(90,90,90);
-    transition: 0.5s;
+.navbar-list-el {
+  color: white;
+  padding: 15px;
 }
 
-#middle-view-container{
-    margin: 4%;
+.navbar-list-el:hover {
+  background-color: rgba(90, 90, 90);
+  transition: 0.5s;
+}
+
+#middle-view-container {
+  margin: 4%;
 }
