@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="pl">
   <head>
     <meta charset="utf-8" />
     <title>Logowanie - sjopinie.pl</title>
@@ -21,25 +22,51 @@
   </head>
 
   <body>
-    <div class="container">
-      <div class="login-panel shadow">
-        <h1>Logowanie</h1>
-        <form method="POST">
+    <div class="website-container">
+      <header class="page-header">
+        <div class="logo">
+          <a href="/" style="font-weight: 700">sjopinie.pl</a>
+        </div>
+      </header>
+      <div class="login-panel-sheet shadow">
+        <h2>Logowanie</h2>
+        {% for field, errors in form.errors.items %}
+        <div></div>
+        {% for error in errors %}
+        <p>{{error}}</p>
+        {%endfor%} {%endfor%}
+        <form action="" method="post">
+          <input
+            type="text"
+            name="username"
+            maxlength="150"
+            id="id_username"
+            required=""
+            placeholder="Adres e-mail"
+          />
+
+          <input
+            type="password"
+            name="password"
+            autocomplete="current-password"
+            required=""
+            id="id_password"
+            placeholder="Hasło"
+          />
           {% csrf_token %}
-
-          <!-- form variable -->
-          {{ form.as_p }}
-
-          <input type="submit" name="sumbit" />
+          <input type="submit" value="Zaloguj się" />
         </form>
+        <span class="form-consent">
+          Nie masz konta? <a href="/signup">Zarejestruj się</a>
+        </span>
       </div>
       <div class="description">
-        <h1>System oceniania przedmiotów na Studium Języków Obcych</h1>
+        <h2>System oceniania przedmiotów na Studium Języków Obcych PW</h2>
         <p>
           Portal pozwala na dodawanie i przeglądanie opinii oraz ocen o
-          przedmiotach i prowadzących.Aby korzystać z serwisu musisz być
+          przedmiotach i prowadzących. Aby korzystać z serwisu musisz być
           zalogowany/a. Nie masz konta?
-          <a href="#"><b>Zarejestruj się tutaj!</b></a>
+          <a href="#">Zarejestruj się tutaj!</a>
         </p>
       </div>
     </div>
