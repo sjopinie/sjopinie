@@ -6,4 +6,5 @@ psycopg2-binary
 gunicorn
 python-dotenv
 django-extensions
+django-tenant-schemas
 djangorestframework
