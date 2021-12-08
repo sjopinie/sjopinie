@@ -1,5 +1,5 @@
-{% extends "sjopinie_app/layout.html" %} {% block title %} Home Page sjopinie
-{%endblock %} {% block content %}
+{% extends "sjopinie_app/layout.html" %} {% block title %} sjopinie {%endblock%}
+{% block content %}
 
 <form method="post">
   {% csrf_token %} {{ form.as_p }}

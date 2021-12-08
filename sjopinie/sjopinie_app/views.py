@@ -17,7 +17,7 @@ from .serializers import LecturerSerializer, OpinionSerializer, SubjectSerialize
 from .models import Lecturer, Opinion, Subject, Tag
 
 
-# Create your views here.
+@login_required(login_url="/login")
 def home_page(request: HttpRequest):
     return render(request, "sjopinie_app/home.html")
 

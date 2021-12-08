@@ -2,56 +2,81 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>{% block title %}{% endblock %}</title>
+    <title>{% block title %}{% endblock %} {{user.tenant.schema_name}}</title>
     {% load static %}
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'sjopinie_app/site.css' %}"
+      href="{% static 'sjopinie_app/style.css' %}"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com/" />
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
   </head>
   <body>
-    <nav>
-      <ul id="navbar-list">
-        <li class="navbar-list-el">
-          <a class="navbar-list-el" href="/"
-            >Strona główna {{user.tenant.name}}</a
-          >
-        </li>
-        <li class="navbar-list-el">
-          <a class="navbar-list-el" href="/list_subj">Lista Przedmiotów</a>
-        </li>
+    <div class="website-container">
+      <header class="page-header">
+        <div class="logo">
+          <a href="/" style="font-weight: 700">sjopinie.pl</a>
+        </div>
+
         {% if user.is_authenticated %}
-        <li>
+        <div class="search-bar">
           <input
             id="navbar-search-text"
-            class="navbar-list-search"
-            type="text"
-            placeholder="Szukaj"
+            type="search"
+            name="search-bar"
+            placeholder="Wyszukaj... dla {{user.tenant.schema_name}}"
           />
-          <button id="navbar-search-button" class="navbar-list-search">
-            🔎
-          </button>
-        </li>
-        <li class="navbar-list-el">
-          <a class="navbar-list-el" href="/api-auth/logout/"
-            >Witaj {{user.get_username}}, (wyloguj)</a
+          <button
+            id="navbar-search-button"
+            type="submit"
+            name="search"
+            class="search-button"
           >
-        </li>
-        {% else %}
-        <li class="navbar-list-el" class="navbar-list-el">
-          <a class="navbar-list-el" href="/login">Zaloguj</a>
-        </li>
-        {% endif %}
-      </ul>
-    </nav>
-    <div class="body-content">{% block content %} {% endblock %}</div>
+            <span class="material-icons-outlined"> search </span>
+          </button>
+        </div>
 
-    <div class="footer-content">
-      <hr />
-      <footer>
-        <p>Copyright © 2021 sjopinie Team</p>
-      </footer>
+        <div class="user-menu">
+          <img
+            src="{% static 'sjopinie_app/media/avatar/avatar.svg' %}"
+            class="left"
+            width="30px"
+            height="30px;"
+          />
+          <span class="user-menu-nickname"
+            ><a class="navbar-list-el" href="/api-auth/logout/"
+              >{{user.get_username}} (wyloguj)</a
+            ></span
+          >
+        </div>
+        {% else %}
+        <div class="user-menu">
+          <img
+            src="{% static 'sjopinie_app/media/avatar/avatar.svg' %}"
+            class="left"
+            width="30px"
+            height="30px;"
+          />
+          <span class="user-menu-nickname"
+            ><a class="navbar-list-el" href="/login/">Zaloguj</a></span
+          >
+        </div>
+        {% endif %}
+      </header>
+      <div style="clear: both"></div>
+    </div>
+    <div class="website-container">
+      <div class="body-content page-sheet shadow">
+        {% block content %} {% endblock %}
+      </div>
+
+      <div class="page-sheet footer-content">
+        <hr />
+        <footer>
+          <p>Copyright © 2021 sjopinie Team</p>
+        </footer>
+      </div>
     </div>
 
     <!-- Load development version ov VUE TODO change to production one at the end -->

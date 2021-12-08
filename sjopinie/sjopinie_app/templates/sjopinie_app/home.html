@@ -1,12 +1,62 @@
-{% extends "sjopinie_app/layout.html" %} {% block title %} Home Page sjopinie
-{%endblock %} {% block content %}
-<h1>Hello Internet!</h1>
+{% extends "sjopinie_app/layout.html" %} {% block title %} Strona główna
+sjopinie {%endblock %} {% block content %}
+<h2>Strona główna</h2>
 
-Lista API:
-<ul>
-  <li><a href="/api/subjects">api/subjects</a></li>
-  <li><a href="/api/opinions">api/opinions</a></li>
-  <li><a href="/api/tags">api/tags</a></li>
-  <li><a href="/api/lecturers">api/lecturers</a></li>
-</ul>
+<div class="search-bar" style="width: 100%">
+  <p style="display: inline">
+    <input
+      id="search-text"
+      class="shadow"
+      type="search"
+      name="search-bar"
+      placeholder="Szukaj przedmiotu lub prowadzącego"
+      style="width: 80%"
+    />
+    <input
+      id="search-button"
+      type="submit"
+      name="search"
+      class="search-button"
+      value="Szukaj"
+      style="width: 20%"
+    />
+  </p>
+</div>
+<input id="list_subjects" type="submit" value="Przeglądaj przedmioty" />
+<input id="add_subject" type="submit" value="Dodaj przedmiot" />
+<input id="add_lect" type="submit" value="Dodaj prowadzącego" />
+<input id="add_opinion" type="submit" value="Dodaj opinię" />
+<script async>
+  document
+    .querySelector("#search-text")
+    .addEventListener("keyup", function (event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("search-button").click();
+      }
+    });
+  document.querySelector("#search-button").onclick = function () {
+    let query = document.querySelector("#search-text").value;
+    if (query) {
+      location.href = "/search/" + query;
+    }
+  };
+
+  document.getElementById("list_subjects").onclick = function () {
+    location.href = "/list_subj";
+  };
+  document.getElementById("add_subject").onclick = function () {
+    location.href = "/new/subject";
+  };
+  document.getElementById("add_lect").onclick = function () {
+    location.href = "/new/lecturer";
+  };
+  document.getElementById("add_opinion").onclick = function () {
+    location.href = "/new/opinion";
+  };
+</script>
+
 {% endblock %}
