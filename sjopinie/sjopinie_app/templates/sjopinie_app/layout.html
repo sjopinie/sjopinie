@@ -66,6 +66,8 @@
       </header>
       <div style="clear: both"></div>
     </div>
+    <!-- Load development version ov VUE TODO change to production one at the end -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <div class="website-container">
       <div class="body-content page-sheet shadow">
         {% block content %} {% endblock %}
@@ -78,9 +80,6 @@
         </footer>
       </div>
     </div>
-
-    <!-- Load development version ov VUE TODO change to production one at the end -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 
     {% if user.is_authenticated %}
     <script async>
