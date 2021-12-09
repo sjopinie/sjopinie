@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from django.db.models import Sum
 from django.utils import timezone
 
 from rest_framework import serializers
@@ -31,9 +32,10 @@ class OpinionSerializer(serializers.ModelSerializer):
         ]
 
     def get_votes_count(self, obj: Opinion):
-        up = Vote.objects.filter(opinion=obj.id, value=1).count()
-        down = Vote.objects.filter(opinion=obj.id, value=-1).count()
-        return up - down
+        value = Vote.objects.filter(opinion=obj.id).aggregate(Sum("value"))
+        if value["value__sum"] is None:
+            return 0
+        return value["value__sum"]
 
     def get_author_name(self, obj: Opinion):
         return obj.author.username
