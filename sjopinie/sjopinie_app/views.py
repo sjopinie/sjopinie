@@ -1,7 +1,7 @@
 from re import template
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseRedirect
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -160,3 +160,9 @@ class OpinionCreateView(LoginRequiredMixin, CreateView):
         'subject_of_opinion', 'lecturer_of_opinion', 'opinion_text',
         'note_interesting', 'note_easy', 'note_useful'
     ]
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.author = self.request.user
+        obj.save()
+        return HttpResponseRedirect(self.success_url)

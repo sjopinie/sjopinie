@@ -53,11 +53,11 @@ class Opinion(models.Model):
     subject_of_opinion = models.ForeignKey(Subject,
                                            on_delete=models.CASCADE,
                                            related_name="subject_of_opinion",
-                                           verbose_name="Prowadzący")
+                                           verbose_name="Lektorat")
     lecturer_of_opinion = models.ForeignKey(Lecturer,
                                             on_delete=models.CASCADE,
                                             related_name="lecturer_of_opinion",
-                                            verbose_name="Lektorat")
+                                            verbose_name="Prowadzący")
     note_interesting = models.SmallIntegerField(
         blank=True,
         null=True,
