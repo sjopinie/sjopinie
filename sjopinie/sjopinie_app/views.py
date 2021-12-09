@@ -48,7 +48,9 @@ def lecturer(request: HttpRequest, id):
     lecturer = Lecturer.objects.get(id=id)
     serializer = LecturerSerializer(lecturer)
 
-    opinions = Opinion.objects.filter(lecturer_of_opinion=id)
+    loaded_opinions_count = 10
+    opinions = Opinion.objects.filter(
+        lecturer_of_opinion=id)[0:loaded_opinions_count]
     opinion_serializer = OpinionSerializer(opinions, many=True)
     context_data = serializer.data
     opinions = opinion_serializer.data
