@@ -19,6 +19,7 @@ class OpinionSerializer(serializers.ModelSerializer):
     author_name = serializers.SerializerMethodField()
     lecturer_name = serializers.SerializerMethodField()
     subject_name = serializers.SerializerMethodField()
+    publish_time = serializers.DateTimeField(format="%Y-%m-%d")
 
     class Meta:
         model = Opinion
