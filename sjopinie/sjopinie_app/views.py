@@ -32,7 +32,7 @@ def subject(request: HttpRequest, id):
     subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
 
-    opinions = Opinion.objects.filter(subject_of_opinion=id)
+    opinions = Opinion.objects.filter(subject_of_opinion=id)[0:10]
     opinion_serializer = OpinionSerializer(opinions, many=True)
     context_data = serializer.data
     opinions = opinion_serializer.data
