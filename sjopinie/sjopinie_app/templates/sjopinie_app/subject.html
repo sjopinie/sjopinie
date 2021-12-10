@@ -23,7 +23,7 @@ Nazwa: {{name}}
     <th scope="col">Użyteczny</th>
     <th scope="col">Głosy</th>
   </thead>
-  <tbody v-html="list_body">
+  <tbody id="listTable">
     {% for opinion in opinions %}
     <tr style="cursor: pointer">
       <td>{{opinion.author_name}}</td>
@@ -40,7 +40,58 @@ Nazwa: {{name}}
       <td>{{opinion.votes_count}}</td>
       <td></td>
     </tr>
-    {%endfor%}
+    {%endfor%} {%if 10 <= opinions|length%}
+    <tr v-for="(row, index) in rows">
+      <td>{+row.author_name+}</td>
+      <td>
+        <a v-bind:href="'/lecturer/'+row.lecturer_of_opinion"
+          >{+row.lecturer_name+}</a
+        >
+      </td>
+      <td>{+row.publish_time+}</td>
+      <td>{+row.opinion_text+}</td>
+      <td>{+row.note_easy+}</td>
+      <td>{+row.note_interesting+}</td>
+      <td>{+row.note_useful+}</td>
+      <td>{+row.votes_count+}</td>
+    </tr>
+    {% endif %}
   </tbody>
 </table>
-{% endblock %}
+{%if 10 <= opinions|length%}
+<input id="load_more" type="submit" value="V" />
+<script>
+  var listTable = new Vue({
+    el: "#listTable",
+    delimiters: ["{+", "+}"],
+    data: {
+      rows: [],
+      num_rows: 10,
+    },
+
+    methods: {
+      addRow: function (row) {
+        this.rows.push(row);
+      },
+    },
+  });
+
+  const loadBtn = document.getElementById("load_more");
+  loadBtn.onclick = function () {
+    const LOADED = 10;
+    fetch(
+      `/api/opinions/?limit=${LOADED}&offset=${listTable.num_rows}&subject_id={{id}}`
+    )
+      .then((response) => response.json())
+      .then((list) => {
+        list.results.forEach((element) => {
+          listTable.addRow(element);
+        });
+        if (list.next === null) {
+          loadBtn.remove();
+        }
+      });
+    listTable.num_rows += LOADED;
+  };
+</script>
+{% endif %} {% endblock %}
