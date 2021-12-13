@@ -1,7 +1,7 @@
 from re import template
 from django.http.response import JsonResponse
 from django.shortcuts import render
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponseRedirect
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -32,7 +32,7 @@ def subject(request: HttpRequest, id):
     subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
 
-    opinions = Opinion.objects.filter(subject_of_opinion=id)
+    opinions = Opinion.objects.filter(subject_of_opinion=id)[0:10]
     opinion_serializer = OpinionSerializer(opinions, many=True)
     context_data = serializer.data
     opinions = opinion_serializer.data
@@ -48,13 +48,12 @@ def lecturer(request: HttpRequest, id):
     lecturer = Lecturer.objects.get(id=id)
     serializer = LecturerSerializer(lecturer)
 
-    opinions = Opinion.objects.filter(lecturer_of_opinion=id)
+    loaded_opinions_count = 10
+    opinions = Opinion.objects.filter(
+        lecturer_of_opinion=id)[0:loaded_opinions_count]
     opinion_serializer = OpinionSerializer(opinions, many=True)
     context_data = serializer.data
     opinions = opinion_serializer.data
-    for opinion in opinions:
-        opinion["subject_name"] = Subject.objects.get(
-            id=opinion["subject_of_opinion"]).name
     context_data["opinions"] = opinions
     return render(request, "sjopinie_app/lecturer.html", context=context_data)
 
@@ -163,3 +162,9 @@ class OpinionCreateView(LoginRequiredMixin, CreateView):
         'subject_of_opinion', 'lecturer_of_opinion', 'opinion_text',
         'note_interesting', 'note_easy', 'note_useful'
     ]
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.author = self.request.user
+        obj.save()
+        return HttpResponseRedirect(self.success_url)
