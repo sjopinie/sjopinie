@@ -7,4 +7,6 @@ gunicorn
 python-dotenv
 django-extensions
 django-tenant-schemas
+django-debug-toolbar-template-profiler
+djdt_flamegraph
 djangorestframework

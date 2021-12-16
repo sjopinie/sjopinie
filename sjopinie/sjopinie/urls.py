@@ -19,10 +19,13 @@ from django.urls import path, include
 from sjopinie_app import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+import debug_toolbar
+
 urlpatterns = [
     path('', views.home_page, name='home'),
     path('list_subj', views.list_subj_page, name='list_subj'),
     path('admin/', admin.site.urls),
+    path('__debug__/', include(debug_toolbar.urls)),
     path('', include('sjopinie_app.urls')),
 ]
 urlpatterns += staticfiles_urlpatterns()
