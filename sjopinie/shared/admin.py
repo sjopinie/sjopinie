@@ -4,8 +4,17 @@ from .models import OrgUser
 
 class OrgUserAdmin(admin.ModelAdmin):
     search_fields = ['username', 'email']
-    list_display = ['username', 'tenant', 'date_joined']
-    list_filter = ['tenant']
+    list_display = ['username', 'date_joined']
+
+    def get_search_results(self, request, queryset, search_term):
+        queryset, may_have_duplicates = super().get_search_results(
+            request,
+            queryset,
+            search_term,
+        )
+
+        queryset &= self.model.objects.filter(tenant=request.tenant)
+        return queryset, may_have_duplicates
 
 
 admin.site.register(OrgUser, OrgUserAdmin)
