@@ -13,7 +13,7 @@ from django.views.generic.edit import CreateView
 from rest_framework import viewsets
 
 from .forms import SignUpForm
-from .serializers import LecturerSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer
+from .serializers import LecturerSerializer, LecturerSummarizedSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer
 from .models import Lecturer, Opinion, Subject, Tag
 
 
@@ -46,7 +46,7 @@ def subject(request: HttpRequest, id):
 @login_required(login_url="/login")
 def lecturer(request: HttpRequest, id):
     lecturer = Lecturer.objects.get(id=id)
-    serializer = LecturerSerializer(lecturer)
+    serializer = LecturerSummarizedSerializer(lecturer)
 
     loaded_opinions_count = 10
     opinions = Opinion.objects.filter(

@@ -1,8 +1,14 @@
 {% extends "sjopinie_app/layout.html" %} {% block title %} Prowadzący
-{%endblock%} {% block content %} Id przedmoitu: {{id}}
+{%endblock%} {% block content %}
 <br />
 <h2>Ogólne informacje</h2>
 Imie i nazwisko: {{full_name}}
+<br />
+Jak ciekawie prowadzi: {{notes.note_interesting}}
+<br />
+Użyteczność prowadzonych przedmiotów: {{notes.note_useful}}
+<br />
+Jak łatwe są zajęcia: {{notes.note_easy}}
 
 <h2>Opinie</h2>
 <table style="width: 100%">

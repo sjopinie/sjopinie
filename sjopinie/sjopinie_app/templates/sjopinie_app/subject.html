@@ -1,8 +1,14 @@
 {% extends "sjopinie_app/layout.html" %} {% block title %} Przedmiot
-{%endblock%} {% block content %} Id przedmoitu: {{id}}
+{%endblock%} {% block content %}
 <br />
 <h2>Ogólne informacje</h2>
 Nazwa: {{name}}
+<br />
+Jak interesujący jest przedmiot: {{notes.note_interesting}}
+<br />
+Użyteczność zdobytej wiedzy: {{notes.note_useful}}
+<br />
+Jak łatwe są zajęcia: {{notes.note_easy}}
 <ul>
   {% for tag in tags %}
   <li>{{tag}}</li>

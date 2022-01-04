@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.db.models import Sum
+from django.db.models import Sum, Avg, IntegerField
 from django.utils import timezone
 
 from rest_framework import serializers
@@ -12,6 +12,23 @@ class LecturerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Lecturer
         fields = ('id', 'full_name')
+
+
+class LecturerSummarizedSerializer(serializers.HyperlinkedModelSerializer):
+
+    notes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Lecturer
+        fields = ('id', 'full_name', 'notes')
+        read_only_fields = ['notes']
+
+    def get_notes(self, obj: Lecturer):
+        return Opinion.objects.filter(lecturer_of_opinion=obj.id).aggregate(
+            note_interesting=Avg("note_interesting",
+                                 output_field=IntegerField()),
+            note_easy=Avg("note_easy", output_field=IntegerField()),
+            note_useful=Avg("note_useful", output_field=IntegerField()))
 
 
 class OpinionSerializer(serializers.ModelSerializer):
@@ -72,11 +89,13 @@ class TagSerializer(serializers.ModelSerializer):
 class SubjectFullSerializer(serializers.ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     tag_list = serializers.CharField(max_length=200, required=False)
+    notes = serializers.SerializerMethodField()
 
     class Meta:
         model = Subject
-        fields = ('id', 'name', 'tags', 'tag_list')
+        fields = ('id', 'name', 'tags', 'tag_list', 'notes')
         extra_kwargs = {'tag_list': {'write_only': True}}
+        read_only_fields = ['notes']
 
     def create(self, validated_data: dict):
         tags = validated_data.get('tag_list')
@@ -100,3 +119,10 @@ class SubjectFullSerializer(serializers.ModelSerializer):
                 tag_model = Tag.objects.create(name=tag_name)
             result.append(tag_model)
         return result
+
+    def get_notes(self, obj: Subject):
+        return Opinion.objects.filter(subject_of_opinion=obj.id).aggregate(
+            note_interesting=Avg("note_interesting",
+                                 output_field=IntegerField()),
+            note_easy=Avg("note_easy", output_field=IntegerField()),
+            note_useful=Avg("note_useful", output_field=IntegerField()))
