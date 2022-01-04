@@ -19,6 +19,7 @@ class Lecturer(models.Model):
 
     class Meta:
         verbose_name = "Prowadzący"
+        verbose_name_plural = "Prowadzący"
 
     def __str__(self):
         return self.full_name
@@ -32,6 +33,7 @@ class Subject(models.Model):
 
     class Meta:
         verbose_name = "Lektorat"
+        verbose_name_plural = "Lektoraty"
 
     def __str__(self):
         return self.name
@@ -79,6 +81,7 @@ class Opinion(models.Model):
 
     class Meta:
         verbose_name = "Opinia"
+        verbose_name_plural = "Opinie"
         unique_together = [
             'author', 'subject_of_opinion', 'lecturer_of_opinion'
         ]
