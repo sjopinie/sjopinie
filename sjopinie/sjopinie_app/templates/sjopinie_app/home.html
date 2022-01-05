@@ -2,49 +2,11 @@
 sjopinie {%endblock %} {% block content %}
 <h2>Strona główna</h2>
 
-<div class="search-bar" style="width: 100%">
-  <p style="display: inline">
-    <input
-      id="search-text"
-      class="shadow"
-      type="search"
-      name="search-bar"
-      placeholder="Szukaj przedmiotu lub prowadzącego"
-      style="width: 80%"
-    />
-    <input
-      id="search-button"
-      type="submit"
-      name="search"
-      class="search-button"
-      value="Szukaj"
-      style="width: 20%"
-    />
-  </p>
-</div>
 <input id="list_subjects" type="submit" value="Przeglądaj przedmioty" />
 <input id="add_subject" type="submit" value="Dodaj przedmiot" />
 <input id="add_lect" type="submit" value="Dodaj prowadzącego" />
 <input id="add_opinion" type="submit" value="Dodaj opinię" />
 <script async>
-  document
-    .querySelector("#search-text")
-    .addEventListener("keyup", function (event) {
-      // Number 13 is the "Enter" key on the keyboard
-      if (event.keyCode === 13) {
-        // Cancel the default action, if needed
-        event.preventDefault();
-        // Trigger the button element with a click
-        document.getElementById("search-button").click();
-      }
-    });
-  document.querySelector("#search-button").onclick = function () {
-    let query = document.querySelector("#search-text").value;
-    if (query) {
-      location.href = "/search/" + query;
-    }
-  };
-
   document.getElementById("list_subjects").onclick = function () {
     location.href = "/list_subj";
   };
