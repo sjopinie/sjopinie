@@ -86,6 +86,12 @@ class TagSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 
+class VoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vote
+        fields = ('value', 'author', 'opinion')
+
+
 class SubjectFullSerializer(serializers.ModelSerializer):
     tags = serializers.StringRelatedField(many=True)
     tag_list = serializers.CharField(max_length=200, required=False)

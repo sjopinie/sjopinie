@@ -7,6 +7,7 @@ router.register(r'api/opinions', views.OpinionViewSet, basename='opinions')
 router.register(r'api/lecturers', views.LecturerViewSet, basename='lecturers')
 router.register(r'api/subjects', views.SubjectViewSet, basename="subjects")
 router.register(r'api/tags', views.TagViewSet)
+router.register(r'api/vote', views.VoteViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

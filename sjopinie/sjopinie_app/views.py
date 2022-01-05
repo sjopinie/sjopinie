@@ -1,7 +1,7 @@
 from re import template
-from django.http.response import JsonResponse
+from django.http.response import HttpResponse
 from django.shortcuts import render
-from django.http import HttpRequest, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponseRedirect, HttpResponseForbidden
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,11 +10,11 @@ from django.contrib.auth.views import LoginView
 from django.db.models import Q
 from django.views.generic.edit import CreateView
 
-from rest_framework import viewsets
+from rest_framework import mixins, viewsets
 
 from .forms import SignUpForm
-from .serializers import LecturerSerializer, LecturerSummarizedSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer
-from .models import Lecturer, Opinion, Subject, Tag
+from .serializers import LecturerSerializer, LecturerSummarizedSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer, VoteSerializer
+from .models import Lecturer, Opinion, Subject, Tag, Vote
 
 
 @login_required(login_url="/login")
@@ -138,6 +138,25 @@ class SubjectViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
 class TagViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     queryset = Tag.objects.all().order_by('name')
     serializer_class = TagSerializer
+
+
+class VoteViewSet(LoginRequiredMixin, mixins.CreateModelMixin,
+                  mixins.UpdateModelMixin, viewsets.GenericViewSet):
+    serializer_class = VoteSerializer
+    queryset = Vote.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        votes = Vote.objects.filter(author=request.user,
+                                    opinion=request.data['opinion'])
+        if votes.count():
+            vote = votes[0]
+            if int(request.data['value']) != vote.value:
+                vote.value = request.data['value']
+                vote.save()
+                return HttpResponse("Vote updated successfully")
+            return HttpResponse()
+        request.data["author"] = request.user.id
+        return super().create(request, *args, **kwargs)
 
 
 class LecturerCreateView(LoginRequiredMixin, CreateView):
