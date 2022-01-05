@@ -50,11 +50,10 @@ p {
 }
 a {
   font-weight: 400;
-  text-decoration: none;
+  text-decoration: underline;
   color: inherit;
 }
 a:visited {
-  text-decoration: none;
   color: inherit;
 }
 hr {
