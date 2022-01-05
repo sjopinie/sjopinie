@@ -97,7 +97,10 @@ class Vote(models.Model):
     )
     value = models.IntegerField(choices=VOTE_VALUES)
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    opinion = models.ForeignKey(Opinion, null=True, on_delete=models.CASCADE)
+    opinion = models.ForeignKey(Opinion,
+                                null=True,
+                                blank=False,
+                                on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ['author', 'opinion']
