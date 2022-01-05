@@ -21,6 +21,8 @@ Jak łatwe są zajęcia: {{notes.note_easy}}
     <th scope="col">Ciekawy</th>
     <th scope="col">Użyteczny</th>
     <th scope="col">Głosy</th>
+    <th scope="col">+1</th>
+    <th scope="col">-1</th>
   </thead>
   <tbody id="listTable">
     {% for opinion in opinions %}
@@ -37,6 +39,14 @@ Jak łatwe są zajęcia: {{notes.note_easy}}
       <td>{{opinion.note_interesting}}</td>
       <td>{{opinion.note_useful}}</td>
       <td>{{opinion.votes_count}}</td>
+      <td>
+        <button class="vote-btn vote-up" id="vote-up-{{opinion.id}}">+1</button>
+      </td>
+      <td>
+        <button class="vote-btn vote-down" id="vote-down-{{opinion.id}}">
+          -1
+        </button>
+      </td>
       <td></td>
     </tr>
     {%endfor%} {%if 10 <= opinions|length%}
@@ -53,6 +63,24 @@ Jak łatwe są zajęcia: {{notes.note_easy}}
       <td>{+row.note_interesting+}</td>
       <td>{+row.note_useful+}</td>
       <td>{+row.votes_count+}</td>
+      <td>
+        <button
+          class="vote-btn vote-up"
+          :id="'vote-up-'+row.id"
+          onclick="send_vote(this);"
+        >
+          +1
+        </button>
+      </td>
+      <td>
+        <button
+          class="vote-btn vote-down"
+          :id="'vote-down-'+row.id"
+          onclick="send_vote(this);"
+        >
+          -1
+        </button>
+      </td>
     </tr>
     {% endif %}
   </tbody>
@@ -93,4 +121,6 @@ Jak łatwe są zajęcia: {{notes.note_easy}}
     listTable.num_rows += LOADED;
   };
 </script>
-{% endif %} {% endblock %}
+{% endif %} {% endblock %} {% block load-scripts %} {% load static %}
+<script async src="{% static 'js/vote_buttons.js' %}"></script>
+{% endblock %}
