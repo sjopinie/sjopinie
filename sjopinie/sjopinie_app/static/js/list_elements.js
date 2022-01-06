@@ -1,11 +1,18 @@
 "use strict";
 
-const gen_list_member = (subject) =>
-  `<tr onclick="location.href='/subject/${subject.id}'"  style="cursor: pointer;">
+const gen_list_member = (subject) => {
+  let tags = "";
+  for (const tag of subject.tags) {
+    tags = tags + tag.name + ", ";
+    console.log(tag);
+  }
+
+  return `<tr onclick="location.href='/subject/${subject.id}'"  style="cursor: pointer;">
       <td><a href="/subject/${subject.id}"
           >${subject.name}</a></td>
-      <td></td>
+      <td>${tags}</td>
     </tr>`; //TODO proper click location
+};
 
 const subject_list = new Vue({
   el: "#list-view",

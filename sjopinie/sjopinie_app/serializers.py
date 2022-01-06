@@ -74,16 +74,18 @@ class OpinionSerializer(serializers.ModelSerializer):
         return result
 
 
-class SubjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Subject
-        fields = ('id', 'name')
-
-
 class TagSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tag
         fields = ('id', 'name')
+
+
+class SubjectSerializer(serializers.ModelSerializer):
+    tags = TagSerializer(many=True)
+
+    class Meta:
+        model = Subject
+        fields = ('id', 'name', 'tags')
 
 
 class VoteSerializer(serializers.ModelSerializer):

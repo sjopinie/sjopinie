@@ -9,6 +9,7 @@ dla: {{query}} {%endblock%} {% block content %}
   <thead>
     <th scope="col">Przedmiot</th>
     <th scope="col">Liczba opinii</th>
+    <th scope="col">Tagi</th>
   </thead>
   <tbody v-html="list_body">
     {% for subject in subjects %}
@@ -17,6 +18,7 @@ dla: {{query}} {%endblock%} {% block content %}
         <a href="/subject/{{subject.id}}">{{subject.name}}</a>
       </td>
       <td>{{subject.opinion_count}}</td>
+      <td>{% for tag in subject.tags %} {{tag.name}} {% endfor %}</td>
     </tr>
     {% endfor %}
   </tbody>
@@ -32,7 +34,7 @@ dla: {{query}} {%endblock%} {% block content %}
     {% for lect in lecturers %}
     <tr style="cursor: pointer">
       <td>
-        <a href="/subject/{{lect.id}}">{{lect.full_name}}</a>
+        <a href="/lecturer/{{lect.id}}">{{lect.full_name}}</a>
       </td>
       <td>{{lect.opinion_count}}</td>
     </tr>
