@@ -25,13 +25,21 @@
 
         {% if user.is_authenticated %}
         <div class="search-bar">
-          <input type="search" name="search-bar" placeholder="Wyszukaj..." />
-          <button type="submit" name="search" class="search-button">
-            <span class="material-icons-outlined">
-              search
-            </span>
-          </button>
-        </div>
+         <input
+           id="navbar-search-text"
+           type="search"
+           name="search-bar"
+           placeholder="Wyszukaj..."
+         />
+         <button
+           id="navbar-search-button"
+           type="submit"
+           name="search"
+           class="search-button"
+         >
+           <span class="material-icons-outlined"> search </span>
+         </button>
+       </div>
 
           <div class="menu" style="float: right;">
                    <div class="menu-user">

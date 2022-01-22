@@ -1,183 +1,269 @@
-{% extends "sjopinie_app/layout.html" %} {% block title %} {{name}} - sjopinie.pl
-{%endblock%} {% block content %}
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js" charset="utf-8"></script>
-  <div class="body-content page-sheet shadow">
-
-<div class="left subtitle">
-        <span>Przedmiot</span>
-        </div>
-        <div class="subtitle right">
-          <span><a href="/list_subj">< Powrót</a></span>
-        </div>
-        <div style="clear: both;"></div>
-
-        <h1>{{name}}</h1>
-        <hr />
-        <div style="clear: both;"></div>
-
-        <div class="left-article-side">
-          <h2>O przedmiocie</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
-
-        <div class="right-article-side">
-          <h2>Ocena przedmiotu</h2>
-          <div class="container">
-  <div class="box">
-    <div class="chart" data-percent="{{notes.note_easy}}" >{{notes.note_easy}}%</div>
-    <h4>Trudność</h4>
-  </div>
-  <div class="box">
-    <div class="chart" data-percent="{{notes.note_interesting}}" >{{notes.note_interesting}}%</div>
-    <h4>Ciekawość</h4>
-  </div>
-  <div class="box">
-    <div class="chart" data-percent="{{notes.note_useful}}" >{{notes.note_useful}}%</div>
-    <h4>Przydatność</h4>
-  </div>
-</div>
-
-<script type="text/javascript">
-  $(function() {
-  $('.chart').easyPieChart({
-    size: 160,
-    barColor: "#82acff",
-    scaleLength: 0,
-    lineWidth: 15,
-    trackColor: "#f7f7f7",
-    lineCap: "circle",
-    animate: 2000,
-  });
-});
-</script>
-          <h2>Tagi</h2>
-          <ul class="tags">
-            {% for tag in tags %}
-            <li>{{tag}}</li>
-            {%endfor%}
-          </ul>
-        </div>
-        <div style="clear: both;"></div>
-      </article>
-    </div>
+{% extends "sjopinie_app/layout.html" %} {% block title %} {{name}} -
+sjopinie.pl {%endblock%} {% block content %}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+  charset="utf-8"
+></script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js"
+  charset="utf-8"
+></script>
 <div class="body-content page-sheet shadow">
+  <div class="left subtitle">
+    <span>Przedmiot</span>
+  </div>
+  <div class="subtitle right">
+    <span><a href="/list_subj">< Powrót</a></span>
+  </div>
+  <div style="clear: both;"></div>
 
-    <header>
-        <div class="left">
-          <span class="subtitle">{{name}}</span>
-          <h1>Opinie</h1>
-          <hr>
+  <h1>{{name}}</h1>
+  <hr />
+  <div style="clear: both;"></div>
+
+  <div class="left-article-side">
+    <h2>O przedmiocie</h2>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+      est laborum.
+    </p>
+  </div>
+  <div class="right-article-side">
+    <h2>Ocena przedmiotu</h2>
+    <div class="container">
+      <div class="box">
+        <div class="chart" data-percent="{{notes.note_easy}}">
+          {{notes.note_easy}}%
         </div>
-        <div class="right">
-          <a href="/new/opinion">
-            <input type="submit" value="+ Dodaj opinię">
-          </a>
+        <h4>Trudność</h4>
+      </div>
+      <div class="box">
+        <div class="chart" data-percent="{{notes.note_interesting}}">
+          {{notes.note_interesting}}%
         </div>
-        <div style="clear: both"></div>
-    </header>
-      {% for opinion in opinions %}
-        <div class="opinion-margin">
-          <div class="opinion-avatar-container">
-            <img src="/static/sjopinie_app/media/avatar/avatar.svg" alt="user avatar" />
-          </div>
-
-          <div class="opinion-container">
-            <div class="user-name">
-              <span>{{opinion.author_name}}</span>
-              <span class="subtitle">{{opinion.publish_time}}</span>
-            </div>
-
-            <div class="thumbs-rating-container">
-              <button class="vote-btn vote-up" id="vote-up-{{opinion.id}}">
-                <span class="material-icons-outlined">thumb_up</span></button>
-                <span class="thumb-counter">{{opinion.votes_count}}</span>
-              <button class="vote-btn vote-down" id="vote-down-{{opinion.id}}">
-                <span class="material-icons-outlined"
-                  >thumb_down</span
-                ></button
-              ><span class="thumb-counter">{{opinion.votes_count}}</span>
-            </div>
-            <div style="clear: both;"></div>
-
-            <div class="opinion-text">
-              <p>Prowadzący: <a href="/lecturer/{{opinion.lecturer_of_opinion}}">{{opinion.lecturer_name}}</a></p>
-              <p>{{opinion.opinion_text}}</p>
-              <br>
-              <div class="opinion-note-container">
-                <div class="note-bar-containter">
-                  <h5>Trudność</h5>
-                <div class="note-bar">
-                  <div class="note-bar-inside" style="width: {{opinion.note_easy}}%">
-                    {{opinion.note_easy}}%
-                  </div>
-                </div>
-                </div>
-
-                <div class="note-bar-containter">
-                  <h5>Ciekawość</h5>
-                <div class="note-bar">
-                  <div class="note-bar-inside" style="width: {{opinion.note_interesting}}%">
-                    {{opinion.note_interesting}}%
-                  </div>
-                </div>
-                </div>
-
-                <div class="note-bar-containter">
-                  <h5>Przydatność</h5>
-                <div class="note-bar">
-                  <div class="note-bar-inside" style="width: {{opinion.note_useful}}%">
-                    {{opinion.note_useful}}%
-                  </div>
-                </div>
-                </div>
-                </div>
-            </div>
-          </div>
+        <h4>Ciekawość</h4>
+      </div>
+      <div class="box">
+        <div class="chart" data-percent="{{notes.note_useful}}">
+          {{notes.note_useful}}%
         </div>
-        <div style="clear: both"></div>
-    {%endfor%}
+        <h4>Przydatność</h4>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      $(function () {
+        $(".chart").easyPieChart({
+          size: 160,
+          barColor: "#82acff",
+          scaleLength: 0,
+          lineWidth: 15,
+          trackColor: "#f7f7f7",
+          lineCap: "circle",
+          animate: 2000,
+        });
+      });
+    </script>
+    <h2>Tagi</h2>
+    <ul class="tags">
+      {% for tag in tags %}
+      <li>{{tag}}</li>
+      {%endfor%}
+    </ul>
+  </div>
+  <div style="clear: both;"></div>
 </div>
-    {%if 10 <= opinions|length%}
-    <tr v-for="(row, index) in rows">
-      <td>{+row.author_name+}</td>
-      <td>
-        <a v-bind:href="'/lecturer/'+row.lecturer_of_opinion"
-          >{+row.lecturer_name+}</a
-        >
-      </td>
-      <td>{+row.publish_time+}</td>
-      <td>{+row.opinion_text+}</td>
-      <td>{+row.note_easy+}</td>
-      <td>{+row.note_interesting+}</td>
-      <td>{+row.note_useful+}</td>
-      <td>{+row.votes_count+}</td>
-      <td>
+
+<div class="body-content page-sheet shadow">
+  <header>
+    <div class="left">
+      <span class="subtitle">{{name}}</span>
+      <h1>Opinie</h1>
+      <hr />
+    </div>
+    <div class="right">
+      <a href="/new/opinion">
+        <input type="submit" value="+ Dodaj opinię" />
+      </a>
+    </div>
+    <div style="clear: both;"></div>
+  </header>
+  <article class="opinions" id="listTable">
+    {% for opinion in opinions %}
+    <div class="opinion-margin">
+      <div class="opinion-avatar-container">
+        <img
+          src="/static/sjopinie_app/media/avatar/avatar.svg"
+          alt="user avatar"
+        />
+      </div>
+
+      <div class="opinion-container">
+        <div class="user-name">
+          <span>{{opinion.author_name}}</span>
+          <span class="subtitle">{{opinion.publish_time}}</span>
+        </div>
+
+        <div class="thumbs-rating-container">
+          <button
+            class="vote-btn vote-up"
+            id="vote-up-{{opinion.id}}"
+            onclick="send_vote(this);"
+          >
+            <span class="material-icons-outlined">thumb_up</span>
+          </button>
+          <span class="thumb-counter">{{opinion.votes_count}}</span>
+          <button
+            class="vote-btn vote-down"
+            id="vote-down-{{opinion.id}}"
+            onclick="send_vote(this);"
+          >
+            <span class="material-icons-outlined">thumb_down</span></button
+          ><span class="thumb-counter">{{opinion.votes_count}}</span>
+        </div>
+        <div style="clear: both;"></div>
+
+        <div class="opinion-text">
+          <p>
+            Prowadzący:
+            <a href="/lecturer/{{opinion.lecturer_of_opinion}}"
+              >{{opinion.lecturer_name}}</a
+            >
+          </p>
+          <p>{{opinion.opinion_text}}</p>
+          <br />
+          <div class="opinion-note-container">
+            <div class="note-bar-containter">
+              <h5>Trudność</h5>
+              <div class="note-bar">
+                <div
+                  class="note-bar-inside"
+                  style="width: {{opinion.note_easy}}%"
+                >
+                  {{opinion.note_easy}}%
+                </div>
+              </div>
+            </div>
+
+            <div class="note-bar-containter">
+              <h5>Ciekawość</h5>
+              <div class="note-bar">
+                <div
+                  class="note-bar-inside"
+                  style="width: {{opinion.note_interesting}}%"
+                >
+                  {{opinion.note_interesting}}%
+                </div>
+              </div>
+            </div>
+
+            <div class="note-bar-containter">
+              <h5>Przydatność</h5>
+              <div class="note-bar">
+                <div
+                  class="note-bar-inside"
+                  style="width: {{opinion.note_useful}}%"
+                >
+                  {{opinion.note_useful}}%
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="clear: both;"></div>
+    {%endfor%}
+  </article>
+
+  {%if 10 <= opinions|length%}
+
+  <div class="opinion-margin" v-for="(row, index) in rows">
+    <div class="opinion-avatar-container">
+      <img
+        src="/static/sjopinie_app/media/avatar/avatar.svg"
+        alt="user avatar"
+      />
+    </div>
+
+    <div class="opinion-container">
+      <div class="user-name">
+        <span>{+row.author_name+}</span>
+        <span class="subtitle">{+row.publish_time+}</span>
+      </div>
+
+      <div class="thumbs-rating-container">
         <button
           class="vote-btn vote-up"
-          :id="'vote-up-'+row.id"
+          id="'vote-up-'+row.id"
           onclick="send_vote(this);"
         >
-          +1
+          <span class="material-icons-outlined">thumb_up</span>
         </button>
-      </td>
-      <td>
+        <span class="thumb-counter">{+row.votes_count+}</span>
         <button
           class="vote-btn vote-down"
-          :id="'vote-down-'+row.id"
+          id="'vote-down-'+row.id"
           onclick="send_vote(this);"
         >
-          -1
-        </button>
-      </td>
-    </tr>
-    {% endif %}
-  </tbody>
-</table>
+          <span class="material-icons-outlined">thumb_down</span></button
+        ><span class="thumb-counter">{+row.votes_count+}</span>
+      </div>
+      <div style="clear: both;"></div>
 
-{%if 10 <= opinions|length%}
+      <div class="opinion-text">
+        <p>
+          Prowadzący:
+          <a v-bind:href="'/lecturer/'+row.lecturer_of_opinion"
+            >{+row.lecturer_name+}</a
+          >
+        </p>
+        <p>{+row.opinion_text+}</p>
+        <br />
+        <div class="opinion-note-container">
+          <div class="note-bar-containter">
+            <h5>Trudność</h5>
+            <div class="note-bar">
+              <div class="note-bar-inside" style="width: {+row.note_easy+}%">
+                {+row.note_easy+}%
+              </div>
+            </div>
+          </div>
 
-<input id="load_more" type="submit" value="V" />
+          <div class="note-bar-containter">
+            <h5>Ciekawość</h5>
+            <div class="note-bar">
+              <div
+                class="note-bar-inside"
+                style="width: {+row.note_interesting+}%"
+              >
+                {+row.note_interesting+}%
+              </div>
+            </div>
+          </div>
+
+          <div class="note-bar-containter">
+            <h5>Przydatność</h5>
+            <div class="note-bar">
+              <div class="note-bar-inside" style="width: {+row.note_useful+}%">
+                {+row.note_useful+}%
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="clear: both;"></div>
+
+  {% endif %} {%if 10 <= opinions|length%}
+  <input id="load_more" type="submit" value="Wczytaj więcej opinii" />
+</div>
 <script>
   var listTable = new Vue({
     el: "#listTable",
