@@ -93,7 +93,7 @@ sjopinie.pl {%endblock%} {% block content %}
     </div>
     <div style="clear: both;"></div>
   </header>
-  <article class="opinions" id="listTable">
+  <article class="opinions" id="opinionList">
     {% for opinion in opinions %}
     <div class="opinion-margin">
       <div class="opinion-avatar-container">
@@ -178,95 +178,96 @@ sjopinie.pl {%endblock%} {% block content %}
       </div>
     </div>
     <div style="clear: both;"></div>
-    {%endfor%}
-  </article>
+    {%endfor%} {%if 10 <= opinions|length%}
 
-  {%if 10 <= opinions|length%}
-
-  <div class="opinion-margin" v-for="(row, index) in rows">
-    <div class="opinion-avatar-container">
-      <img
-        src="/static/sjopinie_app/media/avatar/avatar.svg"
-        alt="user avatar"
-      />
-    </div>
-
-    <div class="opinion-container">
-      <div class="user-name">
-        <span>{+row.author_name+}</span>
-        <span class="subtitle">{+row.publish_time+}</span>
+    <div class="opinion-margin" v-for="(row, index) in rows">
+      <div class="opinion-avatar-container">
+        <img
+          src="/static/sjopinie_app/media/avatar/avatar.svg"
+          alt="user avatar"
+        />
       </div>
 
-      <div class="thumbs-rating-container">
-        <button
-          class="vote-btn vote-up"
-          id="'vote-up-'+row.id"
-          onclick="send_vote(this);"
-        >
-          <span class="material-icons-outlined">thumb_up</span>
-        </button>
-        <span class="thumb-counter">{+row.votes_count+}</span>
-        <button
-          class="vote-btn vote-down"
-          id="'vote-down-'+row.id"
-          onclick="send_vote(this);"
-        >
-          <span class="material-icons-outlined">thumb_down</span></button
-        ><span class="thumb-counter">{+row.votes_count+}</span>
-      </div>
-      <div style="clear: both;"></div>
+      <div class="opinion-container">
+        <div class="user-name">
+          <span>{+row.author_name+}</span>
+          <span class="subtitle">{+row.publish_time+}</span>
+        </div>
 
-      <div class="opinion-text">
-        <p>
-          Prowadzący:
-          <a v-bind:href="'/lecturer/'+row.lecturer_of_opinion"
-            >{+row.lecturer_name+}</a
+        <div class="thumbs-rating-container">
+          <button
+            class="vote-btn vote-up"
+            id="'vote-up-'+row.id"
+            onclick="send_vote(this);"
           >
-        </p>
-        <p>{+row.opinion_text+}</p>
-        <br />
-        <div class="opinion-note-container">
-          <div class="note-bar-containter">
-            <h5>Trudność</h5>
-            <div class="note-bar">
-              <div class="note-bar-inside" style="width: {+row.note_easy+}%">
-                {+row.note_easy+}%
+            <span class="material-icons-outlined">thumb_up</span>
+          </button>
+          <span class="thumb-counter">{+row.votes_count+}</span>
+          <button
+            class="vote-btn vote-down"
+            id="'vote-down-'+row.id"
+            onclick="send_vote(this);"
+          >
+            <span class="material-icons-outlined">thumb_down</span></button
+          ><span class="thumb-counter">{+row.votes_count+}</span>
+        </div>
+        <div style="clear: both;"></div>
+
+        <div class="opinion-text">
+          <p>
+            Prowadzący:
+            <a v-bind:href="'/lecturer/'+row.lecturer_of_opinion"
+              >{+row.lecturer_name+}</a
+            >
+          </p>
+          <p>{+row.opinion_text+}</p>
+          <br />
+          <div class="opinion-note-container">
+            <div class="note-bar-containter">
+              <h5>Trudność</h5>
+              <div class="note-bar">
+                <div class="note-bar-inside" style="width: {+row.note_easy+}%">
+                  {+row.note_easy+}%
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="note-bar-containter">
-            <h5>Ciekawość</h5>
-            <div class="note-bar">
-              <div
-                class="note-bar-inside"
-                style="width: {+row.note_interesting+}%"
-              >
-                {+row.note_interesting+}%
+            <div class="note-bar-containter">
+              <h5>Ciekawość</h5>
+              <div class="note-bar">
+                <div
+                  class="note-bar-inside"
+                  style="width: {+row.note_interesting+}%"
+                >
+                  {+row.note_interesting+}%
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="note-bar-containter">
-            <h5>Przydatność</h5>
-            <div class="note-bar">
-              <div class="note-bar-inside" style="width: {+row.note_useful+}%">
-                {+row.note_useful+}%
+            <div class="note-bar-containter">
+              <h5>Przydatność</h5>
+              <div class="note-bar">
+                <div
+                  class="note-bar-inside"
+                  style="width: {+row.note_useful+}%"
+                >
+                  {+row.note_useful+}%
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div style="clear: both;"></div>
 
+    <div style="clear: both;"></div>
+  </article>
   {% endif %} {%if 10 <= opinions|length%}
   <input id="load_more" type="submit" value="Wczytaj więcej opinii" />
 </div>
 <script>
-  var listTable = new Vue({
-    el: "#listTable",
+  var opinionList = new Vue({
+    el: "#opinionList",
     delimiters: ["{+", "+}"],
     data: {
       rows: [],
@@ -284,18 +285,18 @@ sjopinie.pl {%endblock%} {% block content %}
   loadBtn.onclick = function () {
     const LOADED = 10;
     fetch(
-      `/api/opinions/?limit=${LOADED}&offset=${listTable.num_rows}&subject_id={{id}}`
+      `/api/opinions/?limit=${LOADED}&offset=${opinionList.num_rows}&subject_id={{id}}`
     )
       .then((response) => response.json())
       .then((list) => {
         list.results.forEach((element) => {
-          listTable.addRow(element);
+          opinionList.addRow(element);
         });
         if (list.next === null) {
           loadBtn.remove();
         }
       });
-    listTable.num_rows += LOADED;
+    opinionList.num_rows += LOADED;
   };
 </script>
 {% endif %} {% endblock %} {% block load-scripts %} {% load static %}
