@@ -1,44 +1,62 @@
 {% extends "sjopinie_app/layout.html" %} {% block title %} Wyniki wyszukiwania
-dla: {{query}} {%endblock%} {% block content %}
-<br />
+dla: {{query}} - sjopinie.pl {%endblock%} {% block content %}
 
-<h2>Wyniki wyszukiwania dla: {{query}}</h2>
+<div class="body-content page-sheet shadow">
+  <div class="left subtitle">
+    <span>Wyszukiwanie</span>
+  </div>
+  <div class="subtitle right">
+    <span><a href="/list_subj">< Powrót</a></span>
+  </div>
+  <div style="clear: both;"></div>
 
-<h2>Przedmioty</h2>
-<table style="width: 60%">
-  <thead>
-    <th scope="col">Przedmiot</th>
-    <th scope="col">Liczba opinii</th>
-    <th scope="col">Tagi</th>
-  </thead>
-  <tbody v-html="list_body">
+  <h1>Wyniki wyszukiwania dla: {{query}}</h1>
+  <hr />
+  <div style="clear: both;"></div>
+  <div class="categories">
+    <h4>Kategorie</h4>
+    <ul>
+      <li><a href="#">Przedmioty (10)</a></li>
+      <li><a href="#">Prowadzący (2)</a></li>
+      <li><a href="#">Tagi (0)</a></li>
+    </ul>
+  </div>
+  <div class="search-results">
+    <h2>Przedmioty</h2>
     {% for subject in subjects %}
-    <tr style="cursor: pointer">
-      <td>
+    <div class="one-result">
+      <h3>
         <a href="/subject/{{subject.id}}">{{subject.name}}</a>
-      </td>
-      <td>{{subject.opinion_count}}</td>
-      <td>{% for tag in subject.tags %} {{tag.name}} {% endfor %}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+        <span class="subtitle">({{subject.opinion_count}} opinii)</span>
+      </h3>
+      <p>Kategoria: <a href="#">Przedmioty</a></p>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis...
+      </p>
 
-<h2>Prowadzący</h2>
-<table style="width: 60%">
-  <thead>
-    <th scope="col">Imię i nazwisko</th>
-    <th scope="col">Liczba opinii</th>
-  </thead>
-  <tbody v-html="list_body">
-    {% for lect in lecturers %}
-    <tr style="cursor: pointer">
-      <td>
-        <a href="/lecturer/{{lect.id}}">{{lect.full_name}}</a>
-      </td>
-      <td>{{lect.opinion_count}}</td>
-    </tr>
+      <ul class="tags">
+        {% for tag in subject.tags %}
+        <li>{{tag.name}}</li>
+        {%endfor%}
+      </ul>
+    </div>
+    <div style="clear: both;"></div>
     {% endfor %}
-  </tbody>
-</table>
+
+    <div class="search-results">
+      <h2>Prowadzący</h2>
+      {% for lect in lecturers %}
+      <div class="one-result">
+        <h3>
+          <a href="/lecturer/{{lect.id}}">{{lect.full_name}}</a>
+          <span class="subtitle">({{lect.opinion_count}} opinii)</span>
+        </h3>
+      </div>
+      <div style="clear: both;"></div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 {% endblock %}
