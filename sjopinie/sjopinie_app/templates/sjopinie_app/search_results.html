@@ -16,8 +16,8 @@ dla: {{query}} - sjopinie.pl {%endblock%} {% block content %}
   <div class="categories">
     <h4>Kategorie</h4>
     <ul>
-      <li><a href="#">Przedmioty (10)</a></li>
-      <li><a href="#">Prowadzący (2)</a></li>
+      <li><a href="#">Przedmioty ({{subjects|length}})</a></li>
+      <li><a href="#">Prowadzący ({{lecturers|length}})</a></li>
       <li><a href="#">Tagi (0)</a></li>
     </ul>
   </div>
