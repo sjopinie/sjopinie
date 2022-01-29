@@ -82,11 +82,11 @@ Opinie o prowadzącym - sjopinie.pl {%endblock%} {% block content %}
           <button class="vote-btn vote-up" id="vote-up-{{opinion.id}}" onclick="send_vote(this);">
             <span class="material-icons-outlined">thumb_up</span>
           </button>
-          <span class="thumb-counter">{{opinion.votes_count}}</span>
+          <span class="thumb-counter">{{opinion.votes_up}}</span>
           <button class="vote-btn vote-down" id="vote-down-{{opinion.id}}" onclick="send_vote(this);">
             <span class="material-icons-outlined">thumb_down</span>
           </button>
-          <span class="thumb-counter">{{opinion.votes_count}}</span>
+          <span class="thumb-counter">{{opinion.votes_down}}</span>
         </div>
       </header>
       <div class="opinion-text">
@@ -134,14 +134,14 @@ Opinie o prowadzącym - sjopinie.pl {%endblock%} {% block content %}
       <h4>{+opinion.author_name+}&nbsp;<span class="subtitle">{+opinion.publish_time+}</span></h4>
     </div>
     <div class="opinion-ratings">
-      <button class="vote-btn vote-up" id="'vote-up-'+row.id" onclick="send_vote(this);">
+      <button class="vote-btn vote-up" :id="'vote-up-'+row.id" onclick="send_vote(this);">
         <span class="material-icons-outlined">thumb_up</span>
       </button>
-      <span class="thumb-counter">{+opinion.votes_count+}</span>
-      <button class="vote-btn vote-down" id="'vote-down-'+row.id" onclick="send_vote(this);">
+      <span class="thumb-counter">{+opinion.votes_up+}</span>
+      <button class="vote-btn vote-down" :id="'vote-down-'+row.id" onclick="send_vote(this);">
         <span class="material-icons-outlined">thumb_down</span>
       </button>
-      <span class="thumb-counter">{+opinion.votes_count+}</span>
+      <span class="thumb-counter">{+opinion.votes_down+}</span>
     </div>
   </header>
   <div class="opinion-text">

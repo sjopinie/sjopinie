@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from django.db.models import Sum, Avg, IntegerField
+from django.db.models import Avg, Count, IntegerField, Q
 from django.utils import timezone
 
 from rest_framework import serializers
@@ -32,7 +32,8 @@ class LecturerSummarizedSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class OpinionSerializer(serializers.ModelSerializer):
-    votes_count = serializers.SerializerMethodField()
+    votes_up = serializers.SerializerMethodField()
+    votes_down = serializers.SerializerMethodField()
     author_name = serializers.SerializerMethodField()
     lecturer_name = serializers.SerializerMethodField()
     subject_name = serializers.SerializerMethodField()
@@ -42,20 +43,24 @@ class OpinionSerializer(serializers.ModelSerializer):
         model = Opinion
         fields = [
             'id', 'author_name', 'opinion_text', 'note_interesting',
-            'note_easy', 'note_useful', 'votes_count', 'author',
+            'note_easy', 'note_useful', 'votes_up', 'votes_down', 'author',
             'publish_time', 'lecturer_of_opinion', 'lecturer_name',
             'subject_of_opinion', 'subject_name'
         ]
         read_only_fields = [
-            'author_name', 'votes_count', 'author', 'publish_time',
+            'author_name', 'votes_up', 'votes_down', 'author', 'publish_time',
             'subject_name'
         ]
 
-    def get_votes_count(self, obj: Opinion):
-        value = Vote.objects.filter(opinion=obj.id).aggregate(Sum("value"))
-        if value["value__sum"] is None:
-            return 0
-        return value["value__sum"]
+    def get_votes_up(self, obj: Opinion):
+        value = Vote.objects.filter(opinion=obj.id).aggregate(
+            votes_up=Count("value", filter=Q(value=1)))
+        return value["votes_up"]
+
+    def get_votes_down(self, obj: Opinion):
+        value = Vote.objects.filter(opinion=obj.id).aggregate(
+            votes_down=Count("value", filter=Q(value=-1)))
+        return value["votes_down"]
 
     def get_author_name(self, obj: Opinion):
         return obj.author.username
