@@ -1,41 +1,38 @@
 {% extends "sjopinie_app/layout.html" %} {% block title %} Wyniki wyszukiwania
 dla: {{query}} - sjopinie.pl {%endblock%} {% block content %}
 
-<div class="body-content page-sheet shadow">
-  <div class="left subtitle">
-    <span>Wyszukiwanie</span>
-  </div>
-  <div class="subtitle right">
-    <span><a href="/list_subj">< Powrót</a></span>
-  </div>
-  <div style="clear: both;"></div>
+<div class="page-sheet shadow">
+  <header>
+    <div class="sheet-subtitle-container">
+      <span class="subtitle">Wyszukiwanie</span>
+    </div>
+    <div class="sheet-subtitle-container" style="text-align: right;">
+      <span class="subtitle"><a href="/">< Powrót</a></span>
+    </div><div style="clear: both"></div>
+    <h2>Wyniki wyszukiwania dla: "{{query}}" <span class="subtitle" id="results"></span></h2>
+    <hr>
+  </header>
+<script type="text/javascript">
+  document.getElementById("results").innerHTML = "("+((parseFloat("{{subjects|length}}")) + (parseFloat("{{lecturers|length}}")))+" wyników)";
+</script>
 
-  <h1>Wyniki wyszukiwania dla: {{query}}</h1>
-  <hr />
-  <div style="clear: both;"></div>
+<main class="lesson-info-container">
   <div class="categories">
-    <h4>Kategorie</h4>
+    <h3>Kategorie</h3>
     <ul>
       <li><a href="#">Przedmioty ({{subjects|length}})</a></li>
       <li><a href="#">Prowadzący ({{lecturers|length}})</a></li>
       <li><a href="#">Tagi (0)</a></li>
     </ul>
   </div>
+
   <div class="search-results">
-    <h2>Przedmioty</h2>
     {% for subject in subjects %}
     <div class="one-result">
       <h3>
         <a href="/subject/{{subject.id}}">{{subject.name}}</a>
         <span class="subtitle">({{subject.opinion_count}} opinii)</span>
       </h3>
-      <p>Kategoria: <a href="#">Przedmioty</a></p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis...
-      </p>
-
       <ul class="tags">
         {% for tag in subject.tags %}
         <li>{{tag.name}}</li>
@@ -45,7 +42,7 @@ dla: {{query}} - sjopinie.pl {%endblock%} {% block content %}
     <div style="clear: both;"></div>
     {% endfor %}
 
-    <div class="search-results">
+<!-- PROWADZĄCY -->
       <h2>Prowadzący</h2>
       {% for lect in lecturers %}
       <div class="one-result">
@@ -56,7 +53,10 @@ dla: {{query}} - sjopinie.pl {%endblock%} {% block content %}
       </div>
       <div style="clear: both;"></div>
       {% endfor %}
-    </div>
+    <!-- ---------- -->
   </div>
+</main>
+
+</div>
 </div>
 {% endblock %}
