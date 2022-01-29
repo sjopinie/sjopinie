@@ -18,8 +18,8 @@ function getCookie(name) {
 const csrftoken = getCookie("csrftoken");
 
 const send_vote = function (event) {
-  let btn = event.target.parentElement;
-  if (!btn) btn = event;
+  let btn = event;
+  if (btn.target) btn = event.target.parentElement;
   let opinion_id = btn.id.split("-")[2];
   let vote_type = btn.id.split("-")[1];
   let vote_value = 0;
