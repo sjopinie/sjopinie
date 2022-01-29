@@ -1,17 +1,41 @@
 {% extends "sjopinie_app/layout.html" %} {% block title %} Home Page sjopinie
 {%endblock %} {% block content %}
-<h2>Dodaj opinię</h2>
-<a href="/new/lecturer">
-  <input type="submit" value="Dodaj brakującego prowadzącego" />
-</a>
 
-<a href="/new/subject">
-  <input type="submit" value="Dodaj brakujący przedmiot" />
-</a>
+<div class="page-sheet shadow">
+  <!-- PRZYCISKI DODAWANIA BRAKUJĄCEGO PROWADZĄCEGO I BRAKUJĄCEGO PRZEDMIOTU PRZENIESIONE DO MENU UŻYTKOWANIKA -->
+  <header>
+    <div class="sheet-subtitle-container">
+      <span class="subtitle">Nazwa przedmiotu</span>
+    </div>
+    <div class="sheet-subtitle-container" style="text-align: right;">
+      <span class="subtitle"><a href="/">< Powrót</a></span>
+    </div><div style="clear: both"></div>
+    <h2>Tworzenie opinii</h2>
+    <hr>
+  </header>
 
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <input type="submit" value="Save" />
-</form>
+  <form method="post">
+    <h3>Prowadzący przedmiot</h3>
+    <input type="text" name="lecturer_of_opinion" required="" id="id_lecturer_of_opinion">
+    <h3>Twoja opinia</h3>
+    <textarea name="opinion_text" maxlength="5000" required="" id="id_opinion_text" rows="8" cols="50"></textarea>
 
+    <h3>Ocena zajęć</h3>
+
+
+      <h5>Trudność</h5>
+        <input name="easy" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
+      <output>50</output>
+
+      <h5>Ciekawość</h5>
+        <input name="interesting" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
+      <output>50</output>
+
+      <h5>Przydatność</h5>
+        <input name="useful" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
+      <output>50</output>
+
+    <input type="submit" value="Dodaj opinię" />
+  </form>
+</div>
 {% endblock %}
