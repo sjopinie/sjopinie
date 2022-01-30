@@ -1,9 +1,19 @@
 {% extends "sjopinie_app/layout.html" %} {% block title %} sjopinie {%endblock%}
 {% block content %}
-
+<div class="page-sheet shadow">
+  <header>
+    <div class="sheet-subtitle-container">
+      <span class="subtitle">/</span>
+    </div>
+    <div class="sheet-subtitle-container" style="text-align: right;">
+      <span class="subtitle"><a href="/">< Powrót</a></span>
+    </div><div style="clear: both"></div>
+    <h2>Dodaj</h2>
+    <hr>
+  </header>
 <form method="post">
   {% csrf_token %} {{ form.as_p }}
-  <input type="submit" value="Save" />
+  <input type="submit" value="Dodaj" />
 </form>
-
+</div>
 {% endblock %}
