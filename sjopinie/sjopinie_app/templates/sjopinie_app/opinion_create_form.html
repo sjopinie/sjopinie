@@ -2,7 +2,6 @@
 {%endblock %} {% block content %}
 
 <div class="page-sheet shadow">
-  <!-- PRZYCISKI DODAWANIA BRAKUJĄCEGO PROWADZĄCEGO I BRAKUJĄCEGO PRZEDMIOTU PRZENIESIONE DO MENU UŻYTKOWANIKA -->
   <header>
     <div class="sheet-subtitle-container">
       <span class="subtitle">Nazwa przedmiotu</span>
@@ -19,22 +18,27 @@
     <input type="text" name="lecturer_of_opinion" required="" id="id_lecturer_of_opinion">
     <h3>Twoja opinia</h3>
     <textarea name="opinion_text" maxlength="5000" required="" id="id_opinion_text" rows="8" cols="50"></textarea>
+    <h3>Tagi</h3>
+    <input type="text" name="tags" required="" id="tags">
 
     <h3>Ocena zajęć</h3>
-
-
+  <div class="range-sliders-container">
+    <div class="range-slider">
       <h5>Trudność</h5>
-        <input name="easy" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
-      <output>50</output>
-
+        <input name="note_easy" id="id_note_easy" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
+        <output>50</output>
+    </div>
+    <div class="range-slider">
       <h5>Ciekawość</h5>
-        <input name="interesting" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
+        <input name="note_interesting" id="id_note_interesting" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
       <output>50</output>
-
+    </div>
+    <div class="range-slider">
       <h5>Przydatność</h5>
-        <input name="useful" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
+        <input name="note_useful" id="id_note_useful" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
       <output>50</output>
-
+    </div>
+  </div>
     <input type="submit" value="Dodaj opinię" />
   </form>
 </div>
