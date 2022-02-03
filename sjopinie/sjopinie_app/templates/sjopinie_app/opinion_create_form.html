@@ -1,4 +1,4 @@
-{% extends "sjopinie_app/layout.html" %} {% block title %} Home Page sjopinie
+{% extends "sjopinie_app/layout.html" %} {% block title %} Dodaj opinię - sjopinie.pl
 {%endblock %} {% block content %}
 
 <div class="page-sheet shadow">
@@ -14,10 +14,38 @@
   </header>
 
   <form method="post">
+    <h3>Nazwa przedmiotu</h3>
+  <div class="creating-opinion-search-bar">
+     <input type="search" name="lecturer_of_opinion" id="id_lecturer_of_opinion" placeholder="Wyszukaj nazwę przedmiotu..." required="" />
+    <div class="auto-complete-box shadow" id="subject">
+      <li>Analiza</li>
+      <li>Analiza 2</li>
+      <li>Analiza 3</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+    </div>
+  </div>
+
     <h3>Prowadzący przedmiot</h3>
-    <input type="text" name="lecturer_of_opinion" required="" id="id_lecturer_of_opinion">
+    <div class="creating-opinion-search-bar">
+     <input type="search" name="lecturer_of_opinion" id="id_lecturer_of_opinion" placeholder="Wyszukaj prowadzącego przedmiot..." required="" />
+     <div class="auto-complete-box shadow" id="lecturer">
+       <li>mgr Izabela Arcykiewicz-Zamecznik</li>
+       <li>mgr Joanna Bańkowska</li>
+       <li>mgr Jarosław Bielecki</li>
+       <li>dr	Dariusz Bruncz</li>
+     </div>
+    </div>
+
     <h3>Twoja opinia</h3>
-    <textarea name="opinion_text" maxlength="5000" required="" id="id_opinion_text" rows="8" cols="50"></textarea>
+    <textarea name="opinion_text" maxlength="5000" required="" id="id_opinion_text"></textarea>
 
     <h3>Ocena zajęć</h3>
   <div class="range-sliders-container">
