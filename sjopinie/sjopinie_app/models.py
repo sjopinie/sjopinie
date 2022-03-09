@@ -1,6 +1,6 @@
+from django.conf import settings
 from django.db import models
 
-from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
@@ -42,7 +42,7 @@ class Subject(models.Model):
 class Opinion(models.Model):
     SEMESTER_VALUES = ((1, "I"), (2, "II"), (3, "III"), (4, "IV"), (5, "V"),
                        (6, "VI"), (7, "VII"), (8, "VIII"), (9, "IX"))
-    author = models.ForeignKey(User,
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE,
                                verbose_name="autor")
     opinion_text = models.CharField("Tekst", max_length=5000)
@@ -96,7 +96,9 @@ class Vote(models.Model):
         (-1, '-1'),
     )
     value = models.IntegerField(choices=VOTE_VALUES)
-    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               null=True,
+                               on_delete=models.SET_NULL)
     opinion = models.ForeignKey(Opinion,
                                 null=True,
                                 blank=False,

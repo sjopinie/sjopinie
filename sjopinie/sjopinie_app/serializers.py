@@ -1,4 +1,3 @@
-from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.db.models import Sum, Avg, IntegerField
 from django.utils import timezone
@@ -9,6 +8,7 @@ from .models import Lecturer, Opinion, Vote, Subject, Tag
 
 
 class LecturerSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = Lecturer
         fields = ('id', 'full_name')
@@ -75,6 +75,7 @@ class OpinionSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Tag
         fields = ('id', 'name')
@@ -89,6 +90,7 @@ class SubjectSerializer(serializers.ModelSerializer):
 
 
 class VoteSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Vote
         fields = ('value', 'author', 'opinion')
