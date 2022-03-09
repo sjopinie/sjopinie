@@ -108,7 +108,6 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "shared.backends.OrgUserBackend"
 ]
-AUTH_USER_MODEL = "shared.OrgUser"
 TENANT_MODEL = "shared.Organization"
 
 # Database
@@ -154,6 +153,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = "shared.OrgUser"
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
