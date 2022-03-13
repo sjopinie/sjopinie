@@ -6,7 +6,7 @@ __pycache__
 migrations/
 
 # data-related
-db.sqlite3
+*.sqlite3
 database.png
 
 # tests-related
