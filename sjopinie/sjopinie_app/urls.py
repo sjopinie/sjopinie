@@ -1,6 +1,8 @@
-from django.urls import include, path
+from django.urls import include, path, re_path
 from rest_framework import routers
 from . import views
+
+from allauth.account import views as auth_views
 
 router = routers.DefaultRouter()
 router.register(r'api/opinions', views.OpinionViewSet, basename='opinions')
@@ -20,6 +22,18 @@ urlpatterns = [
                               namespace='rest_framework')),
     path('login/', views.UserLoginView.as_view(), name="login"),
     path('signup/', views.UserSignUpView.as_view(), name="signup"),
+    path("inactive/", auth_views.account_inactive, name="account_inactive"),
+    # E-mail
+    path(
+        "confirm-email/",
+        auth_views.email_verification_sent,
+        name="account_email_verification_sent",
+    ),
+    re_path(
+        r"^confirm-email/(?P<key>[-:\w]+)/$",
+        auth_views.confirm_email,
+        name="account_confirm_email",
+    ),
     #App usage
     path('lecturer/<int:id>/', views.lecturer),
     path('subject/<int:id>/', views.subject),

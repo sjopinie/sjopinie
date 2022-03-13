@@ -16,13 +16,15 @@ from .forms import SignUpForm
 from .serializers import LecturerSerializer, LecturerSummarizedSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer, VoteSerializer
 from .models import Lecturer, Opinion, Subject, Tag, Vote
 
+from allauth.account.decorators import verified_email_required
 
-@login_required(login_url="/login")
+
+@verified_email_required(login_url="/login")
 def home_page(request: HttpRequest):
     return render(request, "sjopinie_app/home.html")
 
 
-@login_required(login_url="/login")
+@verified_email_required(login_url="/login")
 def subject(request: HttpRequest, id):
     subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
@@ -38,7 +40,7 @@ def subject(request: HttpRequest, id):
     return render(request, "sjopinie_app/subject.html", context=context_data)
 
 
-@login_required(login_url="/login")
+@verified_email_required(login_url="/login")
 def lecturer(request: HttpRequest, id):
     lecturer = Lecturer.objects.get(id=id)
     serializer = LecturerSummarizedSerializer(lecturer)
@@ -53,7 +55,7 @@ def lecturer(request: HttpRequest, id):
     return render(request, "sjopinie_app/lecturer.html", context=context_data)
 
 
-@login_required(login_url="/login")
+@verified_email_required(login_url="/login")
 def search(request: HttpRequest, query: str):
     lecturers = Lecturer.objects.filter(full_name__contains=query)
     subjects = Subject.objects.filter(name__contains=query)
