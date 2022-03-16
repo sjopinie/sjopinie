@@ -1,126 +1,191 @@
-{% extends "sjopinie_app/layout.html" %} {% block title %} Prowadzący
-{%endblock%} {% block content %}
-<br />
-<h2>Ogólne informacje o prowadzącym</h2>
-Imie i nazwisko: {{full_name}}
-<br />
-Jak ciekawie prowadzi: {{notes.note_interesting}}
-<br />
-Użyteczność prowadzonych przedmiotów: {{notes.note_useful}}
-<br />
-Jak łatwe są zajęcia: {{notes.note_easy}}
+{% extends "sjopinie_app/layout.html" %} {% block title %} {{full_name}} -
+Opinie o prowadzącym - sjopinie.pl {%endblock%} {% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js" charset="utf-8"></script>
 
-<h2>Opinie</h2>
-<table style="width: 100%">
-  <thead>
-    <th scope="col">Autor</th>
-    <th scope="col">Przedmiot</th>
-    <th scope="col">Data</th>
-    <th scope="col">Opinia</th>
-    <th scope="col">Łatwy</th>
-    <th scope="col">Ciekawy</th>
-    <th scope="col">Użyteczny</th>
-    <th scope="col">Głosy</th>
-    <th scope="col">+1</th>
-    <th scope="col">-1</th>
-  </thead>
-  <tbody id="listTable">
+
+<!-- ABOUT LECTURER -->
+<div class="page-sheet shadow">
+  <header>
+    <div class="sheet-subtitle-container">
+      <span class="subtitle">Prowadzący</span>
+    </div>
+    <div class="sheet-subtitle-container" style="text-align: right;">
+      <span class="subtitle"><a href="/">< Powrót</a></span>
+    </div><div style="clear: both"></div>
+    <h2>{{full_name}}</h2>
+    <hr>
+  </header>
+  <div class="lesson-info-container">
+    <div class="info-col">
+      <h3>O prowadzącym</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div class="info-col">
+        <h3>Ocena prowadzącego</h3>
+        <div class="circles-container">
+          <div class="box">
+            <div class="chart" data-percent="{{notes.note_easy}}">
+              {{notes.note_easy}}%
+            </div>
+            <h4>Jak łatwe są zajęcia?</h4>
+          </div>
+          <div class="box">
+            <div class="chart" data-percent="{{notes.note_interesting}}">
+              {{notes.note_interesting}}%
+            </div>
+            <h4>Jak ciekawie prowadzi?</h4>
+          </div>
+          <div class="box">
+            <div class="chart" data-percent="{{notes.note_useful}}">
+              {{notes.note_useful}}%
+            </div>
+            <h4>Użyteczność przedmiotów</h4>
+          </div>
+        </div>
+        <script type="text/javascript">
+          $(function () {$(".chart").easyPieChart({size: 160, barColor: "#82acff", scaleLength: 0, lineWidth: 15, trackColor: "#f7f7f7", lineCap: "circle", animate: 2000,}); });
+        </script>
+    </div>
+  </div>
+</div>
+  <!-- ----- -->
+
+  <!-- OPINIONS -->
+<div class="page-sheet shadow">
+  <header>
+    <div class="sheet-subtitle-container">
+      <h4 class="subtitle">{{full_name}}</h4>
+      <h2>Opinie</h2>
+    </div>
+    <div class="sheet-subtitle-container" style="text-align: right;">
+      <a href="/new/opinion">
+        <input type="button" value="+ Dodaj opinię">
+      </a>
+    </div><div style="clear: both"></div>
+    <hr>
+  </header>
+
+
+<div id="opinionList">
     {% for opinion in opinions %}
-    <tr style="cursor: pointer">
-      <td>{{opinion.author_name}}</td>
-      <td>
-        <a href="/subject/{{opinion.subject_of_opinion}}"
-          >{{opinion.subject_name}}</a
-        >
-      </td>
-      <td>{{opinion.publish_time}}</td>
-      <td>{{opinion.opinion_text}}</td>
-      <td>{{opinion.note_easy}}</td>
-      <td>{{opinion.note_interesting}}</td>
-      <td>{{opinion.note_useful}}</td>
-      <td>{{opinion.votes_count}}</td>
-      <td>
-        <button class="vote-btn vote-up" id="vote-up-{{opinion.id}}">+1</button>
-      </td>
-      <td>
-        <button class="vote-btn vote-down" id="vote-down-{{opinion.id}}">
-          -1
-        </button>
-      </td>
-      <td></td>
-    </tr>
-    {%endfor%} {%if 10 <= opinions|length%}
-    <tr v-for="(row, index) in rows">
-      <td>{+row.author_name+}</td>
-      <td>
-        <a v-bind:href="'/subject/'+row.subject_of_opinion"
-          >{+row.subject_name+}</a
-        >
-      </td>
-      <td>{+row.publish_time+}</td>
-      <td>{+row.opinion_text+}</td>
-      <td>{+row.note_easy+}</td>
-      <td>{+row.note_interesting+}</td>
-      <td>{+row.note_useful+}</td>
-      <td>{+row.votes_count+}</td>
-      <td>
-        <button
-          class="vote-btn vote-up"
-          :id="'vote-up-'+row.id"
-          onclick="send_vote(this);"
-        >
-          +1
-        </button>
-      </td>
-      <td>
-        <button
-          class="vote-btn vote-down"
-          :id="'vote-down-'+row.id"
-          onclick="send_vote(this);"
-        >
-          -1
-        </button>
-      </td>
-    </tr>
-    {% endif %}
-  </tbody>
-</table>
-{%if 10 <= opinions|length%}
-<input id="load_more" type="submit" value="V" />
-<script>
-  var listTable = new Vue({
-    el: "#listTable",
-    delimiters: ["{+", "+}"],
-    data: {
-      rows: [],
-      num_rows: 10,
-    },
+  <article class="opinion">
+    <div class="opinion-img">
+      <img src="/static/sjopinie_app/media/avatar/avatar.svg" alt="user">
+    </div>
+    <div class="opinion-content">
+      <header class="container">
+        <div class="opinion-author">
+          <h4>{{opinion.author_name}}&nbsp;<span class="subtitle">{{opinion.publish_time}}</span></h4>
+        </div>
+        <div class="opinion-ratings">
+          <button class="vote-btn vote-up" id="vote-up-{{opinion.id}}" onclick="send_vote(this);">
+            <span class="material-icons-outlined">thumb_up</span>
+          </button>
+          <span class="thumb-counter">{{opinion.votes_up}}</span>
+          <button class="vote-btn vote-down" id="vote-down-{{opinion.id}}" onclick="send_vote(this);">
+            <span class="material-icons-outlined">thumb_down</span>
+          </button>
+          <span class="thumb-counter">{{opinion.votes_down}}</span>
+        </div>
+      </header>
+      <div class="opinion-text">
+        <p>Przedmiot:
+          <a href="/subject/{{opinion.subject_of_opinion}}"
+          >{{opinion.subject_name}}</a>
+        </p>
+        <p>{{opinion.opinion_text}}</p>
+      </div>
+      <div class="note-bar-container">
+        <div class="bar-container">
+          <h4>Trudność</h4>
+        </div>
+        <div class="bar-container">
+          <h4>Ciekawość</h4>
+        </div>
+        <div class="bar-container">
+          <h4>Przydatność</h4>
+        </div>
+      </div>
+      <div class="note-bar-container">
+        <div class="bar bar-container">
+          <div class="bar-inside" style="width: {{opinion.note_easy}}%">{{opinion.note_easy}}%</div>
+        </div>
+        <div class="bar bar-container">
+          <div class="bar-inside" style="width: {{opinion.note_interesting}}%">{{opinion.note_interesting}}%</div>
+        </div>
+        <div class="bar bar-container">
+          <div class="bar-inside" style="width: {{opinion.note_useful}}%">{{opinion.note_useful}}%</div>
+        </div>
+      </div>
+    </div>
+  </article>
+  {%endfor%}
 
-    methods: {
-      addRow: function (row) {
-        this.rows.push(row);
-      },
-    },
-  });
 
-  const loadBtn = document.getElementById("load_more");
-  loadBtn.onclick = function () {
-    const LOADED = 10;
-    fetch(
-      `/api/opinions/?limit=${LOADED}&offset=${listTable.num_rows}&lecturer_id={{id}}`
-    )
-      .then((response) => response.json())
-      .then((list) => {
-        list.results.forEach((element) => {
-          listTable.addRow(element);
-        });
-        if (list.next === null) {
-          loadBtn.remove();
-        }
-      });
-    listTable.num_rows += LOADED;
-  };
-</script>
-{% endif %} {% endblock %} {% block load-scripts %} {% load static %}
-<script async src="{% static 'js/vote_buttons.js' %}"></script>
-{% endblock %}
+  {%if 10 <= opinions|length%}
+  <article class="opinion" v-for="(row, index) in rows">
+    <div class="opinion-img">
+  <img src="/static/sjopinie_app/media/avatar/avatar.svg" alt="user">
+</div>
+<div class="opinion-content">
+  <header class="container">
+    <div class="opinion-author">
+      <h4>{+opinion.author_name+}&nbsp;<span class="subtitle">{+opinion.publish_time+}</span></h4>
+    </div>
+    <div class="opinion-ratings">
+      <button class="vote-btn vote-up" :id="'vote-up-'+row.id" onclick="send_vote(this);">
+        <span class="material-icons-outlined">thumb_up</span>
+      </button>
+      <span class="thumb-counter">{+opinion.votes_up+}</span>
+      <button class="vote-btn vote-down" :id="'vote-down-'+row.id" onclick="send_vote(this);">
+        <span class="material-icons-outlined">thumb_down</span>
+      </button>
+      <span class="thumb-counter">{+opinion.votes_down+}</span>
+    </div>
+  </header>
+  <div class="opinion-text">
+    <p>Przedmiot:
+      <a v-bind:href="'/subject/'+row.subject_of_opinion">
+        {+row.subject_name+}</a>
+    </p>
+    <p>{+opinion.opinion_text+}</p>
+  </div>
+  <div class="note-bar-container">
+    <div class="bar-container">
+      <h4>Trudność</h4>
+    </div>
+    <div class="bar-container">
+      <h4>Ciekawość</h4>
+    </div>
+    <div class="bar-container">
+      <h4>Przydatność</h4>
+    </div>
+  </div>
+  <div class="note-bar-container">
+    <div class="bar bar-container">
+      <div class="bar-inside" :style="'width: '+opinion.note_easy+'%'">{+opinion.note_easy+}%</div>
+    </div>
+    <div class="bar bar-container">
+      <div class="bar-inside" :style="'width: '+opinion.note_interesting+'%'">{+opinion.note_interesting+}%</div>
+    </div>
+    <div class="bar bar-container">
+      <div class="bar-inside" :style="'width: '+opinion.note_useful+'%'">{+opinion.note_useful+}%</div>
+    </div>
+  </div>
+</div>
+
+  </article>
+  {% endif %}
+  </div>
+  {%if 10 <= opinions|length%}
+    <div class="load-more-btn">
+      <input id="load_more" type="button" value="Wczytaj więcej opinii">
+    </div>
+  <script> var opinionList = new Vue({ el: "#opinionList", delimiters: ["{+", "+}"], data: { rows: [], num_rows: 10, }, methods: { addRow: function (row) { this.rows.push(row); }, }, }); const loadBtn = document.getElementById("load_more"); loadBtn.onclick = function () { const LOADED = 10; fetch( `/api/opinions/?limit=${LOADED}&offset=${opinionList.num_rows}&subject_id={{id}}` ) .then((response) => response.json()) .then((list) => { list.results.forEach((element) => { opinionList.addRow(element); }); if (list.next === null) { loadBtn.remove(); } }); opinionList.num_rows += LOADED; }; </script>
+  {% endif %}
+  </div>
+  {% endblock %}
+  {% block load-scripts %} {% load static %}
+  <script async src="{% static 'js/vote_buttons.js' %}"></script>
+  {% endblock %}

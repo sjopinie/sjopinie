@@ -4,104 +4,114 @@
     <meta charset="utf-8" />
     <title>{% block title %}{% endblock %}</title>
     {% load static %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static 'sjopinie_app/style.css' %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'sjopinie_app/style.css' %}"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com/" />
-    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+      href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"/>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"/>
   </head>
   <body>
-    <div class="website-container">
-      <header class="page-header">
-        <div class="logo">
-          <a href="/" style="font-weight: 700">sjopinie.pl</a>
-        </div>
+    <header class="header-top">
+      <!-- LOGO -->
+      <div class="logo">
+        <a href="/" style="font-weight:700">sjopinie.pl</a>
+      </div>
+
+      {% if user.is_authenticated %}
+
+      <!-- SEARCH BAR -->
+      <div class="search-bar shadow">
+       <input
+         id="navbar-search-text"
+         type="search"
+         name="search-bar"
+         placeholder="Wyszukaj..."
+       />
+       <button
+         id="navbar-search-button"
+         type="submit"
+         name="search"
+         class="search-button"
+       >
+         <span class="material-icons-outlined"> search </span>
+       </button>
+     </div>
+      <!-- - -->
+
+      <!-- USER MENU -->
+      <div class="menu-user shadow">
+
+        <img src="{% static 'sjopinie_app/media/avatar/avatar.svg' %}" alt="user">
+        <span class="user-name">{{user.get_username}}</span>
+        <span class="material-icons-outlined icon-align" style="font-size: 24px;">
+          expand_more
+        </span>
+
+        <menu class="menu-content shadow">
+          <li>
+            <a href="/new/opinion"><span class="material-icons-outlined icon-align"> add_reaction </span>
+              Dodaj opinię</a>
+          </li>
+          <li>
+            <a href="/new/lecturer"><span class="material-icons-outlined icon-align">person_add</span>
+              Dodaj prowadzącego</a>
+          </li>
+          <li>
+            <a href="/new/subject"><span class="material-icons-outlined icon-align"> add </span>
+              Dodaj przedmiot</a>
+          </li>
+          <li>
+            <a href="#"><span class="material-icons-outlined icon-align">settings</span>
+              Ustawienia</a>
+          </li>
+          <li>
+            <a href="/api-auth/logout/"><span class="material-icons-outlined icon-align">logout</span>
+              Wyloguj</a>
+          </li>
+        </menu>
+      </div>
+      <!-- - -->
+      {% endif %}
+    </header>
+
+        <!-- Load development version ov VUE TODO change to production one at the end -->
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+        {% block content %} {% endblock %}
+
+        <footer>
+          <hr>
+          Copyright &copy; 2022 sjopinie.pl
+        </footer>
 
         {% if user.is_authenticated %}
-        <div class="search-bar">
-          <input
-            id="navbar-search-text"
-            type="search"
-            name="search-bar"
-            placeholder="Wyszukaj..."
-          />
-          <button
-            id="navbar-search-button"
-            type="submit"
-            name="search"
-            class="search-button"
-          >
-            <span class="material-icons-outlined"> search </span>
-          </button>
-        </div>
+        <script async>
+          document
+            .querySelector("#navbar-search-text")
+            .addEventListener("keyup", function (event) {
+              // Number 13 is the "Enter" key on the keyboard
+              if (event.keyCode === 13) {
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("navbar-search-button").click();
+              }
+            });
+          document.querySelector("#navbar-search-button").onclick = function () {
+            let query = document.querySelector("#navbar-search-text").value;
+            if (query) {
+              location.href = "/search/" + query;
+            }
+          };
+        </script>
 
-        <div class="user-menu">
-          <img
-            src="{% static 'sjopinie_app/media/avatar/avatar.svg' %}"
-            class="left"
-            width="30px"
-            height="30px;"
-          />
-          <span class="user-menu-nickname"
-            ><a class="navbar-list-el" href="/api-auth/logout/"
-              >{{user.get_username}} (wyloguj)</a
-            ></span
-          >
-        </div>
-        {% else %}
-        <div class="user-menu">
-          <img
-            src="{% static 'sjopinie_app/media/avatar/avatar.svg' %}"
-            class="left"
-            width="30px"
-            height="30px;"
-          />
-          <span class="user-menu-nickname"
-            ><a class="navbar-list-el" href="/login/">Zaloguj</a></span
-          >
-        </div>
-        {% endif %}
-      </header>
-      <div style="clear: both"></div>
-    </div>
-    <!-- Load development version ov VUE TODO change to production one at the end -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <div class="website-container">
-      <div class="body-content page-sheet shadow">
-        {% block content %} {% endblock %}
-      </div>
+        {% endif %} {% block load-scripts %} {% endblock %}
 
-      <div class="page-sheet footer-content">
-        <hr />
-        <footer>
-          <p>Copyright © 2021 sjopinie Team</p>
-        </footer>
-      </div>
-    </div>
-
-    {% if user.is_authenticated %}
-    <script async>
-      document
-        .querySelector("#navbar-search-text")
-        .addEventListener("keyup", function (event) {
-          // Number 13 is the "Enter" key on the keyboard
-          if (event.keyCode === 13) {
-            // Cancel the default action, if needed
-            event.preventDefault();
-            // Trigger the button element with a click
-            document.getElementById("navbar-search-button").click();
-          }
-        });
-      document.querySelector("#navbar-search-button").onclick = function () {
-        let query = document.querySelector("#navbar-search-text").value;
-        if (query) {
-          location.href = "/search/" + query;
-        }
-      };
-    </script>
-
-    {% endif %} {% block load-scripts %} {% endblock %}
-  </body>
-</html>
+      </body>
+    </html>

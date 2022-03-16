@@ -1,17 +1,71 @@
-{% extends "sjopinie_app/layout.html" %} {% block title %} Home Page sjopinie
+{% extends "sjopinie_app/layout.html" %} {% block title %} Dodaj opinię - sjopinie.pl
 {%endblock %} {% block content %}
-<h2>Dodaj opinię</h2>
-<a href="/new/lecturer">
-  <input type="submit" value="Dodaj brakującego prowadzącego" />
-</a>
 
-<a href="/new/subject">
-  <input type="submit" value="Dodaj brakujący przedmiot" />
-</a>
+<div class="page-sheet shadow">
+  <header>
+    <div class="sheet-subtitle-container">
+      <span class="subtitle">Nazwa przedmiotu</span>
+    </div>
+    <div class="sheet-subtitle-container" style="text-align: right;">
+      <span class="subtitle"><a href="/">< Powrót</a></span>
+    </div><div style="clear: both"></div>
+    <h2>Tworzenie opinii</h2>
+    <hr>
+  </header>
 
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <input type="submit" value="Save" />
-</form>
+  <form method="post">
+    <h3>Nazwa przedmiotu</h3>
+  <div class="creating-opinion-search-bar">
+     <input type="search" name="lecturer_of_opinion" id="id_lecturer_of_opinion" placeholder="Wyszukaj nazwę przedmiotu..." required="" />
+    <div class="auto-complete-box shadow" id="subject">
+      <li>Analiza</li>
+      <li>Analiza 2</li>
+      <li>Analiza 3</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+      <li>Analiza 4</li>
+    </div>
+  </div>
 
+    <h3>Prowadzący przedmiot</h3>
+    <div class="creating-opinion-search-bar">
+     <input type="search" name="lecturer_of_opinion" id="id_lecturer_of_opinion" placeholder="Wyszukaj prowadzącego przedmiot..." required="" />
+     <div class="auto-complete-box shadow" id="lecturer">
+       <li>mgr Izabela Arcykiewicz-Zamecznik</li>
+       <li>mgr Joanna Bańkowska</li>
+       <li>mgr Jarosław Bielecki</li>
+       <li>dr	Dariusz Bruncz</li>
+     </div>
+    </div>
+
+    <h3>Twoja opinia</h3>
+    <textarea name="opinion_text" maxlength="5000" required="" id="id_opinion_text"></textarea>
+
+    <h3>Ocena zajęć</h3>
+  <div class="range-sliders-container">
+    <div class="range-slider">
+      <h5>Trudność</h5>
+        <input name="note_easy" id="id_note_easy" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
+        <output>50</output>
+    </div>
+    <div class="range-slider">
+      <h5>Ciekawość</h5>
+        <input name="note_interesting" id="id_note_interesting" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
+      <output>50</output>
+    </div>
+    <div class="range-slider">
+      <h5>Przydatność</h5>
+        <input name="note_useful" id="id_note_useful" type="range" value="50" min="1" max="100" oninput="this.nextElementSibling.value = this.value">
+      <output>50</output>
+    </div>
+  </div>
+    <input type="submit" value="Dodaj opinię" />
+  </form>
+</div>
 {% endblock %}

@@ -1,24 +1,38 @@
 {% extends "sjopinie_app/layout.html" %} {% block title %} Strona główna
 sjopinie {%endblock %} {% block content %}
-<h2>Strona główna</h2>
+<div class="body-content page-sheet shadow">
+  <h2>Strona główna</h2>
 
-<input id="list_subjects" type="submit" value="Przeglądaj przedmioty" />
-<input id="add_subject" type="submit" value="Dodaj przedmiot" />
-<input id="add_lect" type="submit" value="Dodaj prowadzącego" />
-<input id="add_opinion" type="submit" value="Dodaj opinię" />
-<script async>
-  document.getElementById("list_subjects").onclick = function () {
-    location.href = "/list_subj";
-  };
-  document.getElementById("add_subject").onclick = function () {
-    location.href = "/new/subject";
-  };
-  document.getElementById("add_lect").onclick = function () {
-    location.href = "/new/lecturer";
-  };
-  document.getElementById("add_opinion").onclick = function () {
-    location.href = "/new/opinion";
-  };
-</script>
+  <input id="add_subject" type="submit" value="Dodaj przedmiot" />
+  <input id="add_lect" type="submit" value="Dodaj prowadzącego" />
+  <input id="add_opinion" type="submit" value="Dodaj opinię" />
+  <script async>
+    document.getElementById("add_subject").onclick = function () {
+      location.href = "/new/subject";
+    };
+    document.getElementById("add_lect").onclick = function () {
+      location.href = "/new/lecturer";
+    };
+    document.getElementById("add_opinion").onclick = function () {
+      location.href = "/new/opinion";
+    };
+  </script>
 
+  <div id="middle-view-container">
+      <h2>Lista przedmiotów</h2>
+    <div id="list-view" style="font-size: 22px;">
+      <p>Liczba przedmiotów: {+ loaded_elements +}</p>
+      <table style="width: 100%">
+        <thead>
+          <th scope="col">Nazwa</th>
+          <th scope="col">Tagi</th>
+        </thead>
+        <tbody v-html="list_body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block load-scripts %} {% load static %}
+<script async src="{% static 'js/list_elements.js' %}"></script>
 {% endblock %}
