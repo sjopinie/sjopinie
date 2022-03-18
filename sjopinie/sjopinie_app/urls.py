@@ -21,7 +21,7 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls',
                               namespace='rest_framework')),
     path("login/", auth_views.login, name="account_login"),
-    path('signup/', views.UserSignUpView.as_view(), name="account_signup"),
+    path('signup/', auth_views.signup, name="account_signup"),
     path("inactive/", auth_views.account_inactive, name="account_inactive"),
     # E-mail
     path(
