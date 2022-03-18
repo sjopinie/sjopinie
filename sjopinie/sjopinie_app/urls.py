@@ -13,11 +13,14 @@ router.register(r'api/vote', views.VoteViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', views.home_page, name='home'),
+    #REST API
     path('', include(router.urls)),
+    #Accounts and Authentication
     path('api-auth/', include('rest_framework.urls',
                               namespace='rest_framework')),
     path('login/', views.UserLoginView.as_view(), name="login"),
     path('signup/', views.UserSignUpView.as_view(), name="signup"),
+    #App usage
     path('lecturer/<int:id>/', views.lecturer),
     path('subject/<int:id>/', views.subject),
     path('search/<str:query>', views.search),
