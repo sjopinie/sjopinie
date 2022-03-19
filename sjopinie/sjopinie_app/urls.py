@@ -18,10 +18,9 @@ urlpatterns = [
     #REST API
     path('', include(router.urls)),
     #Accounts and Authentication
-    path('api-auth/', include('rest_framework.urls',
-                              namespace='rest_framework')),
     path("login/", auth_views.login, name="account_login"),
     path('signup/', auth_views.signup, name="account_signup"),
+    path("logout/", auth_views.logout, name="account_logout"),
     path("inactive/", auth_views.account_inactive, name="account_inactive"),
     # E-mail
     path(
