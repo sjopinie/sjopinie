@@ -7,3 +7,4 @@ gunicorn
 python-dotenv
 django-extensions
 djangorestframework
+django-allauth

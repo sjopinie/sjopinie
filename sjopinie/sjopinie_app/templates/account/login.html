@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <title>Logowanie - sjopinie.pl</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'sjopinie_app/style.css' %}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header class="header-top">
+      <div class="logo">
+        <a href="/" style="font-weight: 700">sjopinie.pl</a>
+      </div>
+    </header>
+
+    <div class="login-container">
+      <div class="login-panel-sheet shadow">
+        <div class="items">
+          <h2>Logowanie</h2>
+          {% for field, errors in form.errors.items %}
+          <div></div>
+          {% for error in errors %}
+          <p>{{error}}</p>
+          {%endfor%} {%endfor%}
+
+          <form action="" method="post">
+            {% csrf_token %}
+            {{form.login}}
+            {{form.password}} 
+            {% if redirect_field_value %}
+            <input
+              type="hidden"
+              name="{{ redirect_field_name }}"
+              value="{{ redirect_field_value }}"
+            />
+            {% endif %}
+
+            <input type="submit" value="Zaloguj się" />
+          </form>
+
+          <span class="create-account-text"
+            >Nie masz konta? <a href="/signup">Zarejestruj się</a>
+          </span>
+        </div>
+      </div>
+
+      <div class="description">
+        <div class="items">
+          <h2>System oceniania przedmiotów na Studium Języków Obcych PW</h2>
+          <p>
+            Portal pozwala na dodawanie i przeglądanie opinii oraz ocen o
+            przedmiotach i prowadzących. Aby korzystać z serwisu musisz być
+            zalogowany/a. Nie masz konta?
+            <a href="/signup">Zarejestruj się tutaj!</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

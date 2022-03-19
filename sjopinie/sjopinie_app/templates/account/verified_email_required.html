@@ -1,0 +1,21 @@
+{% extends "sjopinie_app/simple_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Verify Your E-mail Address" %}</h1>
+
+{% url 'account_email' as email_url %}
+
+<p>{% blocktrans %}This part of the site requires us to verify that
+you are who you claim to be. For this purpose, we require that you
+verify ownership of your e-mail address. {% endblocktrans %}</p>
+
+<p>
+Przesłaliśmy weryfikacyjny e-mail na twój adres. Kliknij w łącze w wiadomości, aby zakończyć proces rejestracji. 
+Skontaktuj się z nami, jeśli nie otrzymasz jej w ciągu kilku minut.
+</p>
+
+{% endblock %}

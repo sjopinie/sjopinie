@@ -16,6 +16,8 @@ from .forms import SignUpForm
 from .serializers import LecturerSerializer, LecturerSummarizedSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer, VoteSerializer
 from .models import Lecturer, Opinion, Subject, Tag, Vote
 
+from allauth.account.decorators import login_required
+
 
 @login_required(login_url="/login")
 def home_page(request: HttpRequest):
@@ -109,10 +111,6 @@ class OpinionViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
             query &= Q(lecturer_of_opinion=lecturer_id)
 
         return Opinion.objects.filter(query)
-
-
-class UserLoginView(LoginView):
-    template_name = 'sjopinie_app/login.html'
 
 
 class UserSignUpView(CreateView):
