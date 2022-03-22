@@ -1,0 +1,16 @@
+{% extends "sjopinie_app/layout.html" %} {% block title %} Ustawienia konta
+sjopinie {%endblock %} {% block content %}
+<div class="body-content page-sheet shadow">
+  <h2>Ustawienia konta</h2>
+  <input id="change_password" type="submit" value="Zmiana hasła" />
+  <input id="change_email" type="submit" value="Zmiana emaila" />
+  <script async>
+    document.getElementById("change_password").onclick = function () {
+      location.href = "{% url 'account_change_password' %}";
+    };
+    document.getElementById("change_email").onclick = function () {
+      location.href = "{% url 'account_email' %}";
+    };
+  </script>
+</div>
+{% endblock %} {% load static %}

@@ -18,6 +18,7 @@ urlpatterns = [
     path('', views.home_page, name='home'),
     #REST API
     path('', include(router.urls)),
+    path('settings/', views.settings_page, name='account_settings'),
     #App usage
     path('lecturer/<int:id>/', views.lecturer),
     path('subject/<int:id>/', views.subject),

@@ -25,6 +25,11 @@ def home_page(request: HttpRequest):
 
 
 @login_required(login_url="/login")
+def settings_page(request: HttpRequest):
+    return render(request, "sjopinie_app/settings.html")
+
+
+@login_required(login_url="/login")
 def subject(request: HttpRequest, id):
     subject = Subject.objects.get(id=id)
     serializer = SubjectFullSerializer(subject)
