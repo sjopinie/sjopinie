@@ -3,6 +3,7 @@ from rest_framework import routers
 from . import views
 
 from allauth.account import views as auth_views
+from allauth.account.urls import urlpatterns as account_urlpatterns
 
 router = routers.DefaultRouter()
 router.register(r'api/opinions', views.OpinionViewSet, basename='opinions')
@@ -17,22 +18,6 @@ urlpatterns = [
     path('', views.home_page, name='home'),
     #REST API
     path('', include(router.urls)),
-    #Accounts and Authentication
-    path("login/", auth_views.login, name="account_login"),
-    path('signup/', auth_views.signup, name="account_signup"),
-    path("logout/", auth_views.logout, name="account_logout"),
-    path("inactive/", auth_views.account_inactive, name="account_inactive"),
-    # E-mail
-    path(
-        "confirm-email/",
-        auth_views.email_verification_sent,
-        name="account_email_verification_sent",
-    ),
-    re_path(
-        r"^confirm-email/(?P<key>[-:\w]+)/$",
-        auth_views.confirm_email,
-        name="account_confirm_email",
-    ),
     #App usage
     path('lecturer/<int:id>/', views.lecturer),
     path('subject/<int:id>/', views.subject),
@@ -40,4 +25,4 @@ urlpatterns = [
     path('new/lecturer/', views.LecturerCreateView.as_view()),
     path('new/opinion/', views.OpinionCreateView.as_view()),
     path('new/subject/', views.SubjectCreateView.as_view()),
-]
+] + account_urlpatterns
