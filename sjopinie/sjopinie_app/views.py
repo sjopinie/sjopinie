@@ -58,7 +58,9 @@ def lecturer(request: HttpRequest, id):
 @login_required(login_url="/login")
 def search(request: HttpRequest, query: str):
     lecturers = Lecturer.objects.filter(full_name__contains=query)
-    subjects = Subject.objects.filter(name__contains=query)
+    q = Q(tags__name__contains=query)
+    q |= Q(name__contains=query)
+    subjects = Subject.objects.filter(q)
     lecturers_data = LecturerSerializer(lecturers, many=True).data
     for lect in lecturers_data:
         lect["opinion_count"] = Opinion.objects.filter(
