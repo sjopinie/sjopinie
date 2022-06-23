@@ -285,6 +285,20 @@ menu {
 }
 /* --------- */
 
+.statistics {
+  display: flex;
+  justify-content: flex-start;
+  padding: 13px 25px;
+}
+
+.statistics-block {
+  background: #F7F7F7;
+  max-width: 180px;
+  padding: 30px;
+  margin-right: 25px;
+  border-radius: 20px;
+  align-items: center;
+}
 
 /* INPUTS */
 input{

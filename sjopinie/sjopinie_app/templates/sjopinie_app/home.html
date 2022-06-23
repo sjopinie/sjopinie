@@ -1,38 +1,48 @@
 {% extends "sjopinie_app/layout.html" %} {% block title %} Strona główna
 sjopinie {%endblock %} {% block content %}
 <div class="body-content page-sheet shadow">
-  <h2>Strona główna</h2>
+  <header>
+    <h2>Hej, {{user.get_username}}!</h2>
+    <p>Twoje opinie są coraz bardziej popularne!</p>
+    <hr>
+  </header>
 
-  <input id="add_subject" type="submit" value="Dodaj przedmiot" />
-  <input id="add_lect" type="submit" value="Dodaj prowadzącego" />
-  <input id="add_opinion" type="submit" value="Dodaj opinię" />
-  <script async>
-    document.getElementById("add_subject").onclick = function () {
-      location.href = "/new/subject";
-    };
-    document.getElementById("add_lect").onclick = function () {
-      location.href = "/new/lecturer";
-    };
-    document.getElementById("add_opinion").onclick = function () {
-      location.href = "/new/opinion";
-    };
-  </script>
-
-  <div id="middle-view-container">
-      <h2>Lista przedmiotów</h2>
-    <div id="list-view" style="font-size: 22px;">
-      <p>Liczba przedmiotów: {+ loaded_elements +}</p>
-      <table style="width: 100%">
-        <thead>
-          <th scope="col">Nazwa</th>
-          <th scope="col">Tagi</th>
-        </thead>
-        <tbody v-html="list_body"></tbody>
-      </table>
-    </div>
+<h3>Przegląd</h3>
+<div class="statistics">
+  <div class="statistics-block shadow">
+    <h2>8</h2>
+    <span class="subtitle">Twoich opinii</span>
+  </div>
+  <div class="statistics-block shadow">
+    <h2>512</h2>
+    <span class="subtitle">Opinii całego serwisu</span>
+  </div>
+  <div class="statistics-block shadow">
+  <h2>321</h2>
+    <span class="subtitle">Opinii całego serwisu</span>
   </div>
 </div>
+
+
+
+</div>
+
+
+
 {% endblock %}
 {% block load-scripts %} {% load static %}
-<script async src="{% static 'js/list_elements.js' %}"></script>
 {% endblock %}
+
+
+
+<!-- <input id="add_subject" type="submit" value="Dodaj przedmiot" />
+<input id="add_lect" type="submit" value="Dodaj prowadzącego" />
+<input id="add_opinion" type="submit" value="Dodaj opinię" />
+<script async>
+  document.getElementById("add_subject").onclick = function () {
+    location.href = "/new/subject";
+  };
+  document.getElementById("add_lect").onclick = function () {
+    location.href = "/new/lecturer";
+  };
+</script> -->
