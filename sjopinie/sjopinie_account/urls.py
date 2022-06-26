@@ -8,4 +8,5 @@ account_urlpatterns.remove(email_endpoint[0])
 
 urlpatterns = [
     path('settings/', views.settings_page, name='account_settings'),
+    path('email/', views.email_change_page, name='account_email'),
 ] + account_urlpatterns
