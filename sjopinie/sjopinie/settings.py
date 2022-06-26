@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'sjopinie_app',
+    'sjopinie_account',
     'django_extensions',
     'rest_framework',
 ]

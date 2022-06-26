@@ -35,6 +35,7 @@ docs_urls = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('sjopinie_app.urls')),
+    path('', include('sjopinie_account.urls')),
 ]
 urlpatterns += staticfiles_urlpatterns()
 
