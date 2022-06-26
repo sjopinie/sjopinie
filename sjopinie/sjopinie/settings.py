@@ -152,7 +152,14 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 # EMAIL config
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-    EMAIL_FILE_PATH = '/tmp/sjopinie-emails'  # change this to a proper location
+    EMAIL_FILE_PATH = os.path.normpath(os.path.join(
+        BASE_DIR, "../email_inbox"))  # change this to a proper location
+    warning_color = '\033[93m'
+    end_color = '\033[0m'
+
+    print(
+        f'{warning_color}Running app in DEBUG mode with local e-mail server\nmessages will be stored in: {EMAIL_FILE_PATH}{end_color}'
+    )
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
