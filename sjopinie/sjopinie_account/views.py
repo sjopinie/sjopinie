@@ -2,6 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import render
 
 from django.contrib.auth.decorators import login_required
+from allauth.account.models import EmailAddress
 
 from .forms import EmailChangeForm
 
@@ -14,18 +15,21 @@ def settings_page(request: HttpRequest):
 
 @login_required(login_url="/login")
 def email_change_page(request: HttpRequest):
-    # if this is a POST request we need to process the form data
     new_email = None
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
         form = EmailChangeForm(request.POST, user=request.user)
-        # check whether it's valid:
         if form.is_valid():
-            new_email = form.cleaned_data["email"]
-            # process the data in form.cleaned_data as required
-            pass  #TODO
 
-    # if a GET (or any other method) we'll create a blank form
+            old_email = EmailAddress.objects.get(user=request.user,
+                                                 primary=True)
+            new_email = EmailAddress.objects.add_email(
+                request,
+                request.user,
+                form.cleaned_data["email"],
+                confirm=True)
+            new_email.set_as_primary()
+            old_email.delete()
+
     else:
         form = EmailChangeForm()
 
