@@ -190,3 +190,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "/sjopinie_app/static")
 
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+LOG_MAX_NUMBER = 10000
