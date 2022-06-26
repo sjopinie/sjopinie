@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from allauth.account.models import EmailAddress
 
 from .forms import EmailChangeForm
+from .utils import log_action
 
 
 # Create your views here.
@@ -19,16 +20,18 @@ def email_change_page(request: HttpRequest):
     if request.method == 'POST':
         form = EmailChangeForm(request.POST, user=request.user)
         if form.is_valid():
-
-            old_email = EmailAddress.objects.get(user=request.user,
-                                                 primary=True)
+            user = request.user
+            old_email = EmailAddress.objects.get(user=user, primary=True)
             new_email = EmailAddress.objects.add_email(
-                request,
-                request.user,
-                form.cleaned_data["email"],
-                confirm=True)
+                request, user, form.cleaned_data["email"], confirm=True)
             new_email.set_as_primary()
             old_email.delete()
+            log_action(
+                user,
+                user,
+                repr(user),
+                change_message=
+                f'email changed from {old_email.email} to {new_email.email}')
 
     else:
         form = EmailChangeForm()

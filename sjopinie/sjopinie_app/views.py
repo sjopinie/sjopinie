@@ -12,6 +12,8 @@ from django.views.generic.edit import CreateView
 
 from rest_framework import mixins, viewsets
 
+from sjopinie_account.utils import log_action, ADDITION
+
 from .forms import SignUpForm
 from .serializers import LecturerSerializer, LecturerSummarizedSerializer, OpinionSerializer, SubjectSerializer, SubjectFullSerializer, TagSerializer, VoteSerializer
 from .models import Lecturer, Opinion, Subject, Tag, Vote
@@ -154,14 +156,24 @@ class VoteViewSet(LoginRequiredMixin, mixins.CreateModelMixin,
         return super().create(request, *args, **kwargs)
 
 
-class LecturerCreateView(LoginRequiredMixin, CreateView):
+class LogCreateView(CreateView):
+
+    def form_valid(self, form) -> HttpResponse:
+        result = super().form_valid(form)  #it creates resulting self.object
+        o = self.object
+        u = self.request.user
+        log_action(u, o, action_flag=ADDITION)
+        return result
+
+
+class LecturerCreateView(LoginRequiredMixin, LogCreateView):
     model = Lecturer
     fields = "__all__"
     success_url = "/new/opinion"
     template_name = 'sjopinie_app/base_create_form.html'
 
 
-class SubjectCreateView(LoginRequiredMixin, CreateView):
+class SubjectCreateView(LoginRequiredMixin, LogCreateView):
     model = Subject
     fields = "__all__"
     success_url = "/"
@@ -181,4 +193,10 @@ class OpinionCreateView(LoginRequiredMixin, CreateView):
         obj = form.save(commit=False)
         obj.author = self.request.user
         obj.save()
+        log_action(
+            obj.author,
+            obj,
+            repr(obj),
+            ADDITION,
+        )
         return HttpResponseRedirect(self.success_url)
