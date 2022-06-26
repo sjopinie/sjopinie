@@ -1,7 +1,10 @@
 from django.contrib import admin
-from django.contrib.admin.models import LogEntry, DELETION
 from django.utils.html import escape
 from django.urls import reverse
+
+from django.contrib.admin.models import LogEntry, DELETION
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
 from django.utils.safestring import mark_safe
 
 
@@ -51,3 +54,14 @@ class LogEntryAdmin(admin.ModelAdmin):
 
     object_link.admin_order_field = "object_repr"
     object_link.short_description = "object"
+
+
+admin.site.unregister(get_user_model())
+
+
+@admin.register(get_user_model())
+class CustomUserAdmin(UserAdmin):
+    list_display = ("username", "email", "is_staff", "date_joined")
+    list_filter = ("is_staff", "is_superuser", "is_active", "groups",
+                   "date_joined")
+    search_fields = ("username", "email")
