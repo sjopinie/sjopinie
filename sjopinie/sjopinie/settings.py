@@ -26,13 +26,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.environ.get('DEBUG', "1") == "1"
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'x=#m(4fwf^arern0(j%ujd8bta5jna%ipqq5ru^4i6#_q$c$16'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if not DEBUG:
+    SECRET_KEY = os.environ['SECRET_KEY']
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(" ")
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS',
+                               "localhost 127.0.0.1 0.0.0.0").split(" ")
 
 # Application definition
 
@@ -92,14 +96,14 @@ WSGI_APPLICATION = 'sjopinie.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DB_ENGINE'),
-        'NAME': os.environ.get('DB_NAME'),
+        'ENGINE': os.environ.get('DB_ENGINE', 'django.db.backends.sqlite3'),
+        'NAME': os.environ.get('DB_NAME', './db.sqlite3'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
         'HOST': os.environ.get('DB_HOST'),
         'PORT': os.environ.get('DB_PORT'),
         'TEST': {
-            'NAME': os.environ.get('DB_TEST_NAME'),
+            'NAME': os.environ.get('DB_TEST_NAME', './test_base.sqlite3'),
             'USER': os.environ.get('POSTGRES_USER'),
             'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
         }
@@ -163,10 +167,10 @@ if DEBUG:
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_USE_TLS = True
-    EMAIL_HOST = 'smtp.gmail.com'
-    EMAIL_PORT = 587
-    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+    EMAIL_HOST = os.environ.get("EMAIL_HOST", 'smtp.gmail.com')
+    EMAIL_PORT = os.environ.get("EMAIL_PORT", 587)
+    EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+    EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
