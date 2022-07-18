@@ -29,6 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', "1") == "1"
 
+INTERNAL_IPS = ('127.0.0.1')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'x=#m(4fwf^arern0(j%ujd8bta5jna%ipqq5ru^4i6#_q$c$16'
 
