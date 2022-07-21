@@ -3,7 +3,6 @@
 # python-related
 __pycache__
 *.pyc
-migrations/
 
 # data-related
 *.sqlite3
