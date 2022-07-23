@@ -172,6 +172,7 @@ else:
     EMAIL_PORT = os.environ.get("EMAIL_PORT", 587)
     EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
     EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
+    DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
