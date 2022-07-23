@@ -30,6 +30,12 @@ class Subject(models.Model):
     tags = models.ManyToManyField(Tag,
                                   related_name="tags",
                                   verbose_name="Tagi")
+    url = models.URLField(verbose_name="link",
+                          blank=True,
+                          help_text="Zewnętrzny link do opisu danych zajęć")
+    description = models.CharField("Opis lektoratu",
+                                   max_length=1500,
+                                   blank=True)
 
     class Meta:
         verbose_name = "Lektorat"
