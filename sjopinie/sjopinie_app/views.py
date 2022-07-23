@@ -117,12 +117,6 @@ class OpinionViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
         return Opinion.objects.filter(query)
 
 
-class UserSignUpView(CreateView):
-    form_class = SignUpForm
-    success_url = "/login"
-    template_name = 'sjopinie_app/signup.html'
-
-
 class SubjectViewSet(LoginRequiredMixin, viewsets.ModelViewSet):
     queryset = Subject.objects.all().order_by('name')
 
@@ -164,6 +158,12 @@ class LogCreateView(CreateView):
         u = self.request.user
         log_action(u, o, action_flag=ADDITION)
         return result
+
+
+class UserSignUpView(LogCreateView):
+    form_class = SignUpForm
+    success_url = "/login"
+    template_name = 'sjopinie_app/signup.html'
 
 
 class LecturerCreateView(LoginRequiredMixin, LogCreateView):
