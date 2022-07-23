@@ -108,7 +108,8 @@ class SubjectFullSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subject
-        fields = ('id', 'name', 'tags', 'tag_list', 'notes')
+        fields = ('id', 'name', 'tags', 'tag_list', 'notes', 'description',
+                  'url')
         extra_kwargs = {'tag_list': {'write_only': True}}
         read_only_fields = ['notes']
 
