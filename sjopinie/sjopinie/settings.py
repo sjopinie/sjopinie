@@ -196,4 +196,46 @@ STATIC_ROOT = os.path.join(BASE_DIR, "/sjopinie_app/static")
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
+#Limit number of logentries
 LOG_MAX_NUMBER = 10000
+
+if not DEBUG:
+    LOGGING = {
+        'version': 1,
+        # 'disable_existing_loggers': True,
+        'formatters': {
+            'verbose': {
+                'format':
+                '%(asctime)s %(levelname)s [%(name)s:%(lineno)s] %(module)s %(process)d %(thread)d %(message)s'
+            },
+        },
+        "filters": {
+            "require_debug_false": {
+                "()": "django.utils.log.RequireDebugFalse",
+            },
+            "require_debug_true": {
+                "()": "django.utils.log.RequireDebugTrue",
+            },
+        },
+        'handlers': {
+            "console": {
+                "level": "INFO",
+                "filters": ["require_debug_true"],
+                "class": "logging.StreamHandler",
+            },
+            'file': {
+                'level': 'INFO',
+                'class': 'logging.handlers.RotatingFileHandler',
+                'formatter': 'verbose',
+                'filename': os.environ.get("LOG_PATH", '/tmp/django.log'),
+                'maxBytes': 1024 * 1024 * 100,  # 100 mb
+            },
+        },
+        'loggers': {
+            'django': {
+                'level': 'INFO',
+                'handlers': ['console', 'file'],
+                'propagate': True,
+            },
+        }
+    }
