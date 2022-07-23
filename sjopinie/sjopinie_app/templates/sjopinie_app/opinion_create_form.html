@@ -15,37 +15,17 @@
 
   <form method="post">
     <h3>Nazwa przedmiotu</h3>
-  <div class="creating-opinion-search-bar">
-     <input type="search" name="lecturer_of_opinion" id="id_lecturer_of_opinion" placeholder="Wyszukaj nazwę przedmiotu..." required="" />
-    <div class="auto-complete-box shadow" id="subject">
-      <li>Analiza</li>
-      <li>Analiza 2</li>
-      <li>Analiza 3</li>
-      <li>Analiza 4</li>
-      <li>Analiza 4</li>
-      <li>Analiza 4</li>
-      <li>Analiza 4</li>
-      <li>Analiza 4</li>
-      <li>Analiza 4</li>
-      <li>Analiza 4</li>
-      <li>Analiza 4</li>
-      <li>Analiza 4</li>
-    </div>
-  </div>
+  {{ form.subject_of_opinion }}
+
+  {% csrf_token %} 
 
     <h3>Prowadzący przedmiot</h3>
-    <div class="creating-opinion-search-bar">
-     <input type="search" name="lecturer_of_opinion" id="id_lecturer_of_opinion" placeholder="Wyszukaj prowadzącego przedmiot..." required="" />
-     <div class="auto-complete-box shadow" id="lecturer">
-       <li>mgr Izabela Arcykiewicz-Zamecznik</li>
-       <li>mgr Joanna Bańkowska</li>
-       <li>mgr Jarosław Bielecki</li>
-       <li>dr	Dariusz Bruncz</li>
-     </div>
-    </div>
+    
+  {{ form.lecturer_of_opinion }}
 
     <h3>Twoja opinia</h3>
-    <textarea name="opinion_text" maxlength="5000" required="" id="id_opinion_text"></textarea>
+    
+  {{ form.opinion_text }}
 
     <h3>Ocena zajęć</h3>
   <div class="range-sliders-container">
