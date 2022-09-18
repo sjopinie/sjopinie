@@ -4,11 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ImproperlyConfigured
 
-if not LogEntry._meta.installed:
-    raise ImproperlyConfigured(
-        "You'll need to put 'django.contrib.admin' in your INSTALLED_APPS setting before you can use the admin application."
-    )
-
 
 def log_action(user: User,
                object,
