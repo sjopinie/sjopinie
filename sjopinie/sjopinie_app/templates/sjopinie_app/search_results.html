@@ -26,8 +26,9 @@ dla: {{query}} - sjopinie.pl {%endblock%} {% block content %}
     </ul>
   </div>
 
-  <div class="search-results">
+  <div class="search-results" style="width: 80%;">
 
+  {% if subjects %}
     <h2>Przedmioty</h2>
     {% for subject in subjects %}
     <div class="one-result">
@@ -43,8 +44,9 @@ dla: {{query}} - sjopinie.pl {%endblock%} {% block content %}
     </div>
     <div style="clear: both;"></div>
     {% endfor %}
-
+  {% endif %}
 <!-- PROWADZĄCY -->
+    {% if lecturers %}
       <h2>Prowadzący</h2>
       {% for lect in lecturers %}
       <div class="one-result">
@@ -55,6 +57,7 @@ dla: {{query}} - sjopinie.pl {%endblock%} {% block content %}
       </div>
       <div style="clear: both;"></div>
       {% endfor %}
+    {% endif %}
     <!-- ---------- -->
   </div>
 </main>
