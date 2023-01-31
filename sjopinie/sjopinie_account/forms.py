@@ -5,11 +5,22 @@ from django.utils.translation import gettext as _
 
 
 class EmailChangeForm(forms.Form):
-    email = forms.EmailField(label='Nowy email', max_length=100, required=True)
+    email = forms.EmailField(label=_('New e-mail'),
+                             max_length=100,
+                             required=True)
+
+    email_rewritten = forms.EmailField(label=_('Rewrite new e-mail'),
+                                       max_length=100,
+                                       required=True)
 
     def __init__(self, *args, user=None, **kwargs):
         self.user = user
         super(EmailChangeForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data["email"] != cleaned_data["email_rewritten"]:
+            raise forms.ValidationError(_("E-mail addresses do not match."))
 
     def clean_email(self):
         email = self.cleaned_data["email"]
