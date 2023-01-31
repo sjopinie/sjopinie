@@ -4,7 +4,6 @@ const gen_list_member = (subject) => {
   let tags = "";
   for (const tag of subject.tags) {
     tags = tags + tag.name + ", ";
-    console.log(tag);
   }
 
   return `<tr onclick="location.href='/subject/${subject.id}'"  style="cursor: pointer;">
@@ -36,4 +35,24 @@ const load_list = function () {
     });
 };
 
+const tags_list = new Vue({
+  el: "#tags-view",
+  data: {
+    tags_list_body: "",
+  },
+}); //TODO show only popular tags
+
+const load_tag_list = function () {
+  fetch("/api/tags/")
+    .then((response) => response.json())
+    .then((list) => {
+      tags_list.tags_list_body = "";
+      list.results.forEach(
+        (tag) =>
+          (tags_list.tags_list_body += `<li><a href="/search/${tag.name}">${tag.name}</a></li>`)
+      );
+    });
+};
+
+load_tag_list();
 load_list();

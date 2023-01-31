@@ -18,8 +18,15 @@ sjopinie {%endblock %} {% block content %}
     };
   </script>
 
+  <div id="tags-view">
+    <h2>Popularne tagi</h2>
+    <ul v-html="tags_list_body" class="tags">
+      <li><a href="/search/tag">tag</a></li>
+    </ul>
+  </div>
+  <br>
   <div id="middle-view-container">
-      <h2>Lista przedmiotów</h2>
+    <h2>Lista przedmiotów</h2>
     <div id="list-view" style="font-size: 22px;">
       <p>Liczba przedmiotów: {+ loaded_elements +}</p>
       <table style="width: 100%">
